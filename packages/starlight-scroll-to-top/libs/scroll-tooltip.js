@@ -1,23 +1,51 @@
+// scroll-to-top.js - Client-side script for the scroll-to-top functionality
+
 /**
  * Creates and manages the scroll-to-top button
  * @param {Object} config - Configuration options
  * @param {string} config.position - Button position ('left' or 'right')
+ * @param {string} config.tooltipText - Text to show in the tooltip
  */
 function initScrollToTop(config = {}) {
-    const { position = 'right' } = config;
+    const { 
+      position = 'right',
+      tooltipText = 'Scroll to top'
+    } = config;
   
     document.addEventListener('DOMContentLoaded', () => {
       // Create the button element
       const scrollToTopButton = document.createElement('button');
       scrollToTopButton.id = 'scroll-to-top-button';
-      scrollToTopButton.ariaLabel = 'Scroll to top';
-      scrollToTopButton.title = 'Scroll to top';
+      scrollToTopButton.ariaLabel = tooltipText;
+      scrollToTopButton.title = tooltipText;
       
       // Add button styles
       scrollToTopButton.innerHTML = `
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="m18 15-6-6-6 6"/>
         </svg>
+      `;
+      
+      // Create tooltip element
+      const tooltip = document.createElement('div');
+      tooltip.id = 'scroll-to-top-tooltip';
+      tooltip.textContent = tooltipText;
+      
+      // Apply tooltip styles with position based on config
+      tooltip.style.cssText = `
+        position: absolute;
+        ${position === 'left' ? 'left: 60px;' : 'right: 60px;'}
+        bottom: 12px;
+        background-color: var(--sl-color-gray-5);
+        color: var(--sl-color-text);
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-size: 14px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s, visibility 0.2s;
+        pointer-events: none;
       `;
       
       // Apply CSS styles with position based on config
@@ -45,13 +73,20 @@ function initScrollToTop(config = {}) {
       // Add the button to the body
       document.body.appendChild(scrollToTopButton);
       
-      // Add hover effect with event listeners
+      // Add tooltip to the button's container
+      scrollToTopButton.appendChild(tooltip);
+      
+      // Add tooltip display on hover
       scrollToTopButton.addEventListener('mouseenter', () => {
         scrollToTopButton.style.backgroundColor = 'var(--sl-color-accent-high)';
+        tooltip.style.opacity = '1';
+        tooltip.style.visibility = 'visible';
       });
       
       scrollToTopButton.addEventListener('mouseleave', () => {
         scrollToTopButton.style.backgroundColor = 'var(--sl-color-accent)';
+        tooltip.style.opacity = '0';
+        tooltip.style.visibility = 'hidden';
       });
       
       // Add click event to scroll to top
@@ -64,8 +99,6 @@ function initScrollToTop(config = {}) {
       
       // Show/hide the button based on scroll position
       const toggleScrollToTopButton = () => {
-        //TODO: Add a check for the page height to avoid showing the button on very short pages
-        //TODO: add an option to let the user choose the scroll percentage to show the button.
         // Show the button when page is scrolled down 30% of viewport height
         const scrollPosition = window.scrollY;
         const viewportHeight = window.innerHeight;
@@ -94,8 +127,10 @@ function initScrollToTop(config = {}) {
         const isDarkTheme = document.documentElement.classList.contains('theme-dark');
         if (isDarkTheme) {
           scrollToTopButton.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.4)';
+          tooltip.style.backgroundColor = 'var(--sl-color-gray-6)';
         } else {
           scrollToTopButton.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
+          tooltip.style.backgroundColor = 'var(--sl-color-gray-5)';
         }
       };
       

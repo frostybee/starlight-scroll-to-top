@@ -22,12 +22,17 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
     ...options
   };
 
+ 
+
   return {
     name: 'starlight-scroll-to-top',
     hooks: {
       'astro:config:setup': ({ injectScript, logger }) => {   
         //const fileContent = readFile(join(__dirname, 'scroll-to-top.js'), 'utf-8');     
-        const fileContent = readFileSync(join(__dirname, 'scroll-to-top.js'), 'utf-8'); // Synchronously read the file content
+        ///const fileContent = readFileSync(join(__dirname, 'scroll-to-top.js'), 'utf-8'); // Synchronously read the file content
+        // const fileContent = readFileSync(join(__dirname, 'scrollToTop.js'), 'utf-8'); // Synchronously read the file content
+        const fileContent = readFileSync(join(__dirname, 'scroll-tooltip.js'), 'utf-8'); // Synchronously read the file content
+        //const fileContent = readFileSync(join(__dirname, 'short-scroll.js'), 'utf-8'); // Synchronously read the file content
         // Inject client-side script that will handle scroll behavior        
         logger.info('Injecting scroll to top script...');
         logger.info(fileContent);
@@ -36,6 +41,14 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
         injectScript('page', `
             ${fileContent};
             initScrollToTop(${JSON.stringify(config)});
+          //    const scrollPlugin = new ScrollToTopPlugin({
+          //   position: 'bottom-right', // or 'bottom-left'
+          //   buttonSize: 40,
+          //   buttonColor: '#333',
+          //   scrollThreshold: 300,
+          //   zIndex: 1000
+          // });
+          //   scrollPlugin.init();
           `);
       },
       'astro:build:setup': ({ vite }) => {
