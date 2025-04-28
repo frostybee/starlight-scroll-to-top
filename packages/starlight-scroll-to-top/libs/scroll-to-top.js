@@ -11,7 +11,7 @@ function initScrollToTop(config = {}) {
       const scrollToTopButton = document.createElement('button');
       scrollToTopButton.id = 'scroll-to-top-button';
       scrollToTopButton.ariaLabel = 'Scroll to top';
-      scrollToTopButton.title = 'Scroll to top';
+      scrollToTopButton.title = 'Oi Scroll to top';
       
       // Add button styles
       scrollToTopButton.innerHTML = `
@@ -25,8 +25,8 @@ function initScrollToTop(config = {}) {
         position: fixed;
         bottom: 20px;
         ${position === 'left' ? 'left: 20px;' : 'right: 20px;'}
-        width: 50px;
-        height: 50px;
+        width: 35px;
+        height: 35px;
         border-radius: 50%;
         background-color: var(--sl-color-accent);
         color: var(--sl-color-white);

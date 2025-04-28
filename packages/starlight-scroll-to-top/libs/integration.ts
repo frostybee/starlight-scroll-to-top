@@ -1,48 +1,65 @@
-//starlightHelloWorldIntegration
-import type { AstroIntegration } from 'astro'
-import { helloWorldVitePlugin } from './vite.ts';    
+import type { AstroIntegration } from 'astro';
+import { fileURLToPath } from 'node:url';
+import { join, dirname } from 'node:path';
+import { readFile, readFileSync } from 'node:fs';
 
-// Astro integration
-export function starlightHelloWorldIntegration(): AstroIntegration {
-    return {
-      name: 'starlight-hello-world',
-      hooks: {
-        'astro:config:setup': ({ updateConfig, config}) => {
-          console.log('Hello World Plugin: Setting up integration');
-          
-          // Add our Vite plugin
-          updateConfig({
-            vite: {
-              plugins: [helloWorldVitePlugin()]
+// Get directory path of current file
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+// Define configuration options type
+export interface ScrollToTopOptions {
+  /**
+   * Position of the scroll to top button
+   * @default 'right'
+   */
+  position?: 'left' | 'right';
+}
+
+export default function starlightScrollToTopIntegration(options: ScrollToTopOptions = {}): AstroIntegration {
+  // Set default options
+  const config = {
+    position: 'right',
+    ...options
+  };
+
+  return {
+    name: 'starlight-scroll-to-top',
+    hooks: {
+      'astro:config:setup': ({ injectScript, logger }) => {   
+        //const fileContent = readFile(join(__dirname, 'scroll-to-top.js'), 'utf-8');     
+        const fileContent = readFileSync(join(__dirname, 'scroll-to-top.js'), 'utf-8'); // Synchronously read the file content       
+
+        // Inject client-side script that will handle scroll behavior        
+        logger.info('Injecting scroll to top script...');
+        logger.info(fileContent);
+
+        // Pass the configuration as stringified JSON
+        injectScript('page', `
+            ${fileContent};
+            initScrollToTop(${JSON.stringify(config)});          
+          `);
+      },
+      'astro:build:setup': ({ vite }) => {
+        // Define virtual module for the scroll functionality
+        vite.plugins = vite.plugins || [];
+        vite.plugins.push({
+          name: 'virtual:starlight-scroll-to-top',
+          resolveId(id) {
+            if (id === 'virtual:starlight/scroll-to-top') {
+              return id;
             }
-          });
-          
-          // You could add custom page extensions here
-          // addPageExtension('.hello');
-          
-          // You could register custom content collection entry types
-          // addContentEntryType({
-          //   contentEntryType: 'hello',
-          //   extensions: ['.hello.md', '.hello.mdx'],
-          // });
-        },
-        
-        // 'astro:build:setup': ({ build }) => {
-        //   console.log('Hello World Plugin: Build setup');
-        // },
-        
-        'astro:build:done': ({ pages, dir }) => {
-          console.log(`Hello World Plugin: Build completed with ${pages.length} pages`);
-        },
-        
-        'astro:server:setup': ({ server }) => {
-          console.log('Hello World Plugin: Dev server started');
-        }
+          },
+          async load(id) {
+            if (id === 'virtual:starlight/scroll-to-top') {
+              // Load the client-side script
+              return await readFile(join(__dirname, 'scroll-to-top.js'), 'utf-8');
+            }
+          }
+        });
+      },
+      'astro:build:done': ({ dir, logger }) => {
+        logger.info(`Starlight Scroll To Top plugin has been installed successfully! Button position: ${config.position}`);
       }
-    };
-  }
-  
-  // Export additional components or utilities
-  export function HelloWorldComponent() {
-    return `<div class="hello-world-component">Hello from Starlight plugin!</div>`;
-  }
+    }
+  };
+}
