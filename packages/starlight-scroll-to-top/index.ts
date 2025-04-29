@@ -26,7 +26,6 @@ export default function starlightScrollToTop(userConfig: ScrollToTopOptions= {})
          */        
         logger.info('Hello from the starlight-scroll-to-top plugin!')
         addIntegration(starlightScrollToTopIntegration(userConfig));
-        // addIntegration(starlightScrollToTopIntegration());
       },
     },
   }
