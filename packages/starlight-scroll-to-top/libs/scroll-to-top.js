@@ -11,7 +11,7 @@ function initScrollToTop(config = {}) {
       const scrollToTopButton = document.createElement('button');
       scrollToTopButton.id = 'scroll-to-top-button';
       scrollToTopButton.ariaLabel = 'Scroll to top';
-      scrollToTopButton.title = 'Oi Scroll to top';
+      scrollToTopButton.title = 'Scroll to top';
       
       // Add button styles
       scrollToTopButton.innerHTML = `
@@ -23,10 +23,10 @@ function initScrollToTop(config = {}) {
       // Apply CSS styles with position based on config
       scrollToTopButton.style.cssText = `
         position: fixed;
-        bottom: 20px;
+        bottom: 30px;
         ${position === 'left' ? 'left: 20px;' : 'right: 20px;'}
-        width: 35px;
-        height: 35px;
+        width: 43px;
+        height: 43px;        
         border-radius: 50%;
         background-color: var(--sl-color-accent);
         color: var(--sl-color-white);
@@ -74,7 +74,9 @@ function initScrollToTop(config = {}) {
         // Calculate how far down the page the user has scrolled
         const scrollPercentage = scrollPosition / (pageHeight - viewportHeight);
         
-        if (scrollPercentage > 0.3) { // Show when scrolled past 30%
+        // Show when scrolled past 30%
+        //TODO: add the scroll threshold to the config options
+        if (scrollPercentage > 0.3) { 
           scrollToTopButton.style.opacity = '1';
           scrollToTopButton.style.visibility = 'visible';
         } else {
