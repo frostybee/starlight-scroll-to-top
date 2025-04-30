@@ -5,7 +5,7 @@ import starlightScrollToTop from 'starlight-scroll-to-top'
 const siteURI = 'https://frostybee.github.io';
 export default defineConfig({
   site: siteURI,
-  base: "/scroll-to-top",
+  base: "/starlight-scroll-to-top",
   integrations: [
     starlight({
       editLink: {
