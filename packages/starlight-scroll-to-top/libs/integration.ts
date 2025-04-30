@@ -32,7 +32,7 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
 
         // Inject client-side script that will handle scroll behavior        
         logger.info('Injecting scroll to top script...');
-        logger.info(fileContent);
+        //logger.info(fileContent);
 
         // Pass the configuration as stringified JSON
         injectScript('page', `
