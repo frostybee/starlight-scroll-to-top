@@ -1,125 +1,242 @@
+// scroll-to-top.js - Client-side script for the scroll-to-top functionality
+
 /**
  * Creates and manages the scroll-to-top button
  * @param {Object} config - Configuration options
- * @param {string} config.position - Button position ('left' or 'right')
+ * @param {string} config.position - Button position relative to the bottom corner of the page ('left' or 'right')
+ * @param {string} config.tooltipText - Text to show in the tooltip
+ * @param {boolean} config.smooth - Whether to use smooth scrolling
+ * @param {number} config.threshold - Height after page scroll to be visible (percentage)
+ * @param {string} config.svgFillcolor - The SVG icon fill color
+ * @param {string} config.svgPath - The SVG icon path d attribute
+ * @param {number} config.width - The SVG icon width
+ * @param {number} config.height - The SVG icon height
+ * @param {string} config.viewBox - The SVG icon viewBox attribute
+ * @param {number} config.borderRadius - The radius of the button corners, 50 for circle.
+ * @param {boolean} config.showTooltip - Whether to show the tooltip on hover
  */
 function initScrollToTop(config = {}) {
-    const { position = 'right' } = config;
-  
-    document.addEventListener('DOMContentLoaded', () => {
-      // Create the button element
-      const scrollToTopButton = document.createElement('button');
-      scrollToTopButton.id = 'scroll-to-top-button';
-      scrollToTopButton.ariaLabel = 'Scroll to top';
-      scrollToTopButton.title = 'Scroll to top';
-      
-      // Add button styles
-      scrollToTopButton.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="m18 15-6-6-6 6"/>
-        </svg>
-      `;
-      
-      // Apply CSS styles with position based on config
-      scrollToTopButton.style.cssText = `
-        position: fixed;
-        bottom: 30px;
-        ${position === 'left' ? 'left: 20px;' : 'right: 20px;'}
-        width: 43px;
-        height: 43px;        
-        border-radius: 50%;
-        background-color: var(--sl-color-accent);
-        color: var(--sl-color-white);
-        border: none;
-        cursor: pointer;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        visibility: hidden;
-        transition: opacity 0.3s, visibility 0.3s;
-        z-index: 100;
-        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-      `;
-      
-      // Add the button to the body
-      document.body.appendChild(scrollToTopButton);
-      
-      // Add hover effect with event listeners
-      scrollToTopButton.addEventListener('mouseenter', () => {
-        scrollToTopButton.style.backgroundColor = 'var(--sl-color-accent-high)';
-      });
-      
-      scrollToTopButton.addEventListener('mouseleave', () => {
-        scrollToTopButton.style.backgroundColor = 'var(--sl-color-accent)';
-      });
-      
-      // Add click event to scroll to top
-      scrollToTopButton.addEventListener('click', () => {
-        window.scrollTo({
-          top: 0,
-          behavior: 'smooth'
-        });
-      });
-      
-      // Show/hide the button based on scroll position
-      const toggleScrollToTopButton = () => {
-        //TODO: Add a check for the page height to avoid showing the button on very short pages
-        //TODO: add an option to let the user choose the scroll percentage to show the button.
-        // Show the button when page is scrolled down 30% of viewport height
-        const scrollPosition = window.scrollY;
-        const viewportHeight = window.innerHeight;
-        const pageHeight = document.documentElement.scrollHeight;
-        
-        // Calculate how far down the page the user has scrolled
-        const scrollPercentage = scrollPosition / (pageHeight - viewportHeight);
-        
-        // Show when scrolled past 30%
-        //TODO: add the scroll threshold to the config options
-        if (scrollPercentage > 0.3) { 
-          scrollToTopButton.style.opacity = '1';
-          scrollToTopButton.style.visibility = 'visible';
-        } else {
-          scrollToTopButton.style.opacity = '0';
-          scrollToTopButton.style.visibility = 'hidden';
-        }
-      };
-      
-      // Add scroll event listener
-      window.addEventListener('scroll', toggleScrollToTopButton);
-      
-      // Initial check on page load
-      toggleScrollToTopButton();
-      
-      // Handle theme changes by applying appropriate styles
-      const updateThemeStyles = () => {
-        const isDarkTheme = document.documentElement.classList.contains('theme-dark');
-        if (isDarkTheme) {
-          scrollToTopButton.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.4)';
-        } else {
-          scrollToTopButton.style.boxShadow = '0 2px 5px rgba(0, 0, 0, 0.2)';
-        }
-      };
-      
-      // Initial theme check
-      updateThemeStyles();
-      
-      // Monitor theme changes
-      const observer = new MutationObserver(updateThemeStyles);
-      observer.observe(document.documentElement, { 
-        attributes: true, 
-        attributeFilter: ['class'] 
-      });
-  
-      // Cleanup function to remove event listeners when navigating between pages
-      return () => {
-        window.removeEventListener('scroll', toggleScrollToTopButton);
-        observer.disconnect();
-        if (scrollToTopButton.parentNode) {
-          scrollToTopButton.parentNode.removeChild(scrollToTopButton);
-        }
-      };
-    });
+  const {
+    position = "right",
+    tooltipText = "Scroll to top",
+    smooth = false,
+    threshold = 30, // Default: show when scrolled 30% down
+    svgFillcolor = "#fff", // Empty string for currentColor
+    svgPath = "M18 15l-6-6-6 6",
+    width = "30",
+    height = "30",
+    viewBox = "0 0 24 24",
+    borderRadius = "15",
+    showTooltip = false,
+  } = config;
+
+  // document.addEventListener('DOMContentLoaded', () => {
+  console.log("Scroll to top button initialized with position:", position);
+
+  // Create the button element
+  const scrollToTopButton = document.createElement("button");
+  scrollToTopButton.id = "scroll-to-top-button";
+  scrollToTopButton.ariaLabel = tooltipText;
+  scrollToTopButton.title = tooltipText;
+
+  // Add button with configurable SVG icon
+  scrollToTopButton.innerHTML = `
+      <svg xmlns="http://www.w3.org/2000/svg" 
+           width="${width}" 
+           height="${height}" 
+           viewBox="${viewBox}" 
+           fill="none" 
+           stroke="${svgFillcolor || "currentColor"}" 
+           stroke-width="2" 
+           stroke-linecap="round" 
+           stroke-linejoin="round">
+        <path d="${svgPath}"/>
+      </svg>
+    `;
+
+  // Create tooltip element
+  const tooltip = document.createElement("div");
+  tooltip.id = "scroll-to-top-tooltip";
+  tooltip.textContent = tooltipText;
+
+  // Apply tooltip styles with position based on config
+  tooltip.style.cssText = `
+      position: absolute;
+      ${position === "left" ? "left: 60px;" : "right: 60px;"}
+      top: -35px;
+      ${position === "left" ? "left: -5px;" : "right: -15px;"}      
+      background-color: var(--sl-color-gray-5);
+      color: var(--sl-color-text);
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-weight: 400;
+      font-size: 14px;
+      white-space: nowrap;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s, visibility 0.3s;
+      pointer-events: none;
+    `;
+
+  //TODO: test fill color with text color.
+  // Use fill color if specified, otherwise use starlight color.
+  // Apply CSS styles with position based on config
+  scrollToTopButton.style.cssText = `
+      position: fixed;
+      bottom: 40px;
+      width: 45px;
+      height: 45px;
+      ${position === "left" ? "left: 40px;" : "right: 35px;"}      
+      border-radius: ${borderRadius}%;
+      background-color: var(--sl-color-accent);
+      color: var(--sl-color-white);
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.5s, visibility 0.6s;
+      z-index: 100;            
+      box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+    `;
+
+  // Add the button to the body
+  document.body.appendChild(scrollToTopButton);
+
+  // Add tooltip to the button's container
+  if (showTooltip) {
+    scrollToTopButton.appendChild(tooltip);
   }
-  
-  export default initScrollToTop;
+
+  // Add tooltip display on hover
+  scrollToTopButton.addEventListener("mouseenter", () => {
+    scrollToTopButton.style.backgroundColor = "var(--sl-color-accent-high)";
+    scrollToTopButton.style.transition = "background-color 0.3s ease-in-out";
+    tooltip.style.opacity = "1";
+    tooltip.style.visibility = "visible";
+  });
+
+  scrollToTopButton.addEventListener("mouseleave", () => {
+    scrollToTopButton.style.backgroundColor = "var(--sl-color-accent)";
+    tooltip.style.opacity = "0";
+    tooltip.style.visibility = "hidden";
+  });
+
+  scrollToTopButton.addEventListener("focus", () => {
+    scrollToTopButton.style.outline = "none";
+  });
+
+  // Add click event to scroll to top with smooth scrolling option
+  scrollToTopButton.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: smooth ? "smooth" : "auto",
+    });
+  });
+
+  // Show/hide the button based on scroll position
+  const toggleScrollToTopButton = () => {
+    const scrollPosition = window.scrollY;
+    const viewportHeight = window.innerHeight;
+    const pageHeight = document.documentElement.scrollHeight;
+
+    // Calculate how far down the page the user has scrolled
+    const scrollPercentage = scrollPosition / (pageHeight - viewportHeight);
+
+    // Ensure threshold is between 0 and 99
+    const thresholdValue =
+      threshold > 0 && threshold >= 10 && threshold <= 99 ? threshold : 30;
+
+    if (scrollPercentage > thresholdValue / 100) {
+      // Show when scrolled past configured threshold
+      scrollToTopButton.style.opacity = "1";
+      scrollToTopButton.style.visibility = "visible";
+    } else {
+      scrollToTopButton.style.opacity = "0";
+      scrollToTopButton.style.visibility = "hidden";
+    }
+  };
+
+  // Add scroll event listener
+  window.addEventListener("scroll", toggleScrollToTopButton);
+
+  // Initial check on page load
+  toggleScrollToTopButton();
+
+  // Handle theme changes by applying appropriate styles
+  const updateThemeStyles = () => {
+    const isDarkTheme =
+      document.documentElement.classList.contains("theme-dark");
+    if (isDarkTheme) {
+      // scrollToTopButton.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.4)";
+      tooltip.style.backgroundColor = "var(--sl-color-gray-6)";
+    } else {
+      // scrollToTopButton.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
+      tooltip.style.backgroundColor = "var(--sl-color-gray-5)";
+    }
+  };
+
+  // Initial theme check
+  updateThemeStyles();
+
+  // Monitor theme changes
+  const observer = new MutationObserver(updateThemeStyles);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+
+  // Function to check zoom level and hide the button accordingly
+  function checkZoomLevel() {
+    const zoomLevel = window.devicePixelRatio; // This gives an approximation of the zoom level
+
+    // If zoom level is above a certain threshold (e.g., 1.5), hide the button
+    if (zoomLevel > 3) {
+      scrollToTopButton.style.display = "none"; // Hide button if zoom is above 300%
+    } else {
+      scrollToTopButton.style.display = "flex"; 
+    }
+  }
+
+  // Run the check whenever the window is resized or zoomed
+  window.addEventListener("resize", checkZoomLevel);
+
+  // Also run it on initial load to account for the page's zoom state
+  checkZoomLevel();
+
+  /*
+  // Check if the screen width is 959px or smaller
+  const mediaQuery = window.matchMedia("(min-width: 2000px)");
+
+  // Function to toggle the display of the 'go-to-top' element
+  function handleMediaQueryChange(e) {
+    if (e.matches) {
+      // If the media query matches (max-width: 959px), hide the button.
+      // scrollToTopButton.style.display = "none";
+    } else {
+      // Otherwise, make sure it's visible.
+      scrollToTopButton.style.display = "flex";
+    }
+  }
+  // Run the function initially
+  handleMediaQueryChange(mediaQuery);
+  // Listen for changes in the media query
+  mediaQuery.addEventListener("change", handleMediaQueryChange);
+  */
+
+  // Cleanup function to remove event listeners when navigating between pages
+  return () => {
+    window.removeEventListener("scroll", toggleScrollToTopButton);
+    observer.disconnect();
+    if (scrollToTopButton.parentNode) {
+      scrollToTopButton.parentNode.removeChild(scrollToTopButton);
+    }
+  };
+
+  // });
+}
+
+export default initScrollToTop;

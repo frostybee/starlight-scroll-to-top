@@ -15,13 +15,13 @@ export default defineConfig({
       sidebar: [
         {
           label: 'Start Here',
-          items: [{ slug: 'getting-started' }],
+          items: [{ slug: 'getting-started' }, { slug: 'configuration' }],          
         },
       ],
       social: [
         { href: 'https://github.com/frostybee/starlight-scroll-to-top', icon: 'github', label: 'GitHub' },
       ],
-      title: 'starlight-scroll-to-top',
+      title: 'Starlight Scroll to Top',
     }),
   ],
 })
