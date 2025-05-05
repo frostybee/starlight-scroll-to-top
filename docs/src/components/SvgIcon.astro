@@ -1,12 +1,14 @@
 ---
-const { d, width = "50", height = "50", viewBox = "0 0 43 53", fill = "none", stroke = "black", strokeWidth = "1" } = Astro.props;
+const { d, width = "50", height = "50", viewBox = "0 0 24 24", fill = "none", stroke = "black", strokeWidth = "1" } = Astro.props;
 ---
 
 <button >
 <svg xmlns="http://www.w3.org/2000/svg" viewBox={viewBox} width={width} height={height}>
-  <path d={d} fill={fill} stroke="currentColor" stroke-width={strokeWidth} />
+  <path d={d} fill={fill} stroke="currentColor" stroke-width={strokeWidth} 
+  stroke-linecap="round" stroke-linejoin="round"
+  />
 </svg>
-<button>
+</button>
 
   <style is:inline>
 button {
@@ -17,11 +19,15 @@ button {
       /* cursor: pointer; */
       position: relative;
       /* background-color: var(--sl-color-gray-5); */
-      color: var(--sl-color-text);
+      color: var(--sl-color-accent);      
       /* padding: 5px 10px; */
       border-radius: 4px;
       font-weight: 400;
       font-size: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center ;
       /* white-space: nowrap;         */
       transition: opacity 0.2s, visibility 0.3s;
       
@@ -29,7 +35,7 @@ button {
 
   button:hover svg path {
       /* fill: var(--sl-color-primary-500); */
-      stroke: var(--sl-color-accent);
+      stroke: var(--sl-color-accent-high);
   }
 
   .button:hover::after {

@@ -11,11 +11,18 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/frostybee/starlight-scroll-to-top/edit/main/docs/',
       },
-      plugins: [starlightScrollToTop({ position: 'right' })],
+      plugins: [starlightScrollToTop(
+        { position: 'left' }
+      )],
       sidebar: [
         {
           label: 'Start Here',
-          items: [{ slug: 'getting-started' }, { slug: 'configuration' }],          
+          collapsed: false,
+          items: [{ slug: 'getting-started' }, 
+            { slug: 'configuration' },
+            { slug: 'svg-paths' }
+          
+          ],
         },
       ],
       social: [
