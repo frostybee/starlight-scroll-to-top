@@ -11,22 +11,34 @@ export default defineConfig({
       editLink: {
         baseUrl: 'https://github.com/frostybee/starlight-scroll-to-top/edit/main/docs/',
       },
-      plugins: [starlightScrollToTop(
-        { position: 'right',
-          threshold: 10,
-          // svgPath: "M12 4L8 10H10V16H14V10H16L12 4M10 16L12 20L14 16"
+      plugins: [
+        starlightScrollToTop({
+          position: 'right',
+          tooltipText: 'Back to top',
+          showTooltip: true,
+          smooth: true,
+          threshold: 20,
+          svgPath: 'M12 4L6 10H9V16H15V10H18L12 4M9 16L12 20L15 16',
+          svgStrokeWidth: 2,
+          borderRadius: '15',
         }
-      )],
+        )],
       sidebar: [
         {
           label: 'Start Here',
           collapsed: false,
-          items: [{ slug: 'getting-started' }, 
-            { slug: 'configuration' },
-            { slug: 'svg-paths' }
-          
+          items: [{ slug: 'getting-started' },
+          { slug: 'configuration' },
+
           ],
         },
+        {
+          label: 'Guides',
+          collapsed: false,
+          items: [
+            { slug: 'svg-paths' }
+          ],
+        }
       ],
       social: [
         { href: 'https://github.com/frostybee/starlight-scroll-to-top', icon: 'github', label: 'GitHub' },

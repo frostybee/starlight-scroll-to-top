@@ -3,3 +3,118 @@ title: Configuration
 description: Configure the starlight-scroll-to-top plugin.
 ---
 
+
+The Astro Starlight Scroll to Top plugin provides a variety of configuration options to customize the appearance and behavior of the scroll-to-top button. You can easily adjust these settings to fit your website's design and user experience.
+
+## Configuring Scroll to Top 
+The Starlight Scroll to Top plugin can be configured in your `astro.config.mjs` file. To do this, you need to import the plugin and add it to the `integrations` array in your Astro configuration. 
+
+**Refer to** **the** [example](#example-configuration) **below** **for a complete configuration**. 
+
+
+```javascript title="astro.config.mjs"
+import { starlight } from '@astrojs/starlight'
+import { defineConfig } from 'astro/config'
+import starlightScrollToTop from 'starlight-scroll-to-top'
+
+export default defineConfig({
+  integrations: [
+    starlight({
+      plugins: [
+        starlightScrollToTop({
+               // Configuration options go here.
+        }),
+      ],
+      title: 'My Docs',
+    }),
+  ],
+})
+
+```
+
+## Configuration Options
+
+The following table summarizes the configuration options for the Astro Starlight Scroll to Top plugin, including their names, data types, default values, and brief descriptions.
+
+| Option Name           | Data Type          | Default Value             | Description                                                                 |
+|-----------------------|--------------------|---------------------------|-----------------------------------------------------------------------------|
+| `position`            | `'left' \| 'right'` | `'right'`                 | Sets the button's position on the page (left or right).                     |
+| `tooltipText`         | `string`           | `'Scroll to top'`         | Text displayed in the tooltip on hover.                                     |
+| `showTooltip`         | `boolean`          | `false`                   | Enables or disables the tooltip on hover.                                   |
+| `smooth`              | `boolean`          | `false`                   | Enables smooth scrolling when the button is clicked.                        |
+| `threshold`           | `number`           | `30`                      | Percentage of page height scrolled before the button appears.               |
+| `svgPath`             | `string`           | `'M18 15l-6-6-6 6'`      | SVG path `d` attribute defining the icon shape (default is an upward arrow).|
+| `svgStrokeWidth`      | `number`           | `2`                       | Stroke width of the SVG icon.                                              |
+| `borderRadius`        | `string`           | `'15'`                    | Border radius of the button (e.g., `'50%'` for circle, `'0%'` for square).  |
+
+
+## Example Configuration
+
+```javascript title="astro.config.mjs"
+
+export default defineConfig({
+   integrations: [
+     starlight({
+       plugins: [
+        starlightScrollToTop({ 
+            position: 'left',
+            tooltipText: 'Back to top',
+            showTooltip: true,
+            smooth: true,
+            threshold: 20,
+            svgPath: 'M18 15l-6-6-6 6',
+            svgStrokeWidth: 3,
+            borderRadius: '50',
+       })
+       ]
+     })
+   ]
+ });
+```
+:::note
+The above configuration places the button on the left, shows a tooltip with "Back to top" on hover, enables smooth scrolling, makes the button visible after scrolling 20% of the page, and customizes the SVG icon and button appearance.
+:::
+
+## Detailed Configuration Options
+The Starlight scroll-to-top plugin **accepts an object** with the following **options**. You can customize these options to fit your needs. The default values are provided for each option.
+
+### `position`
+- **Type**: `'left' | 'right'`
+- **Default**: `'right'`
+- **Description**: Specifies the position of the scroll-to-top button on the page. Choose `'left'` to place the button on the left side or `'right'` for the right side.
+
+### `tooltipText`
+- **Type**: `string`
+- **Default**: `'Scroll to top'`
+- **Description**: Defines the text displayed in the tooltip when hovering over the button. Customize this to provide a user-friendly message.
+
+### `showTooltip`
+- **Type**: `boolean`
+- **Default**: `false`
+- **Description**: Determines whether the tooltip is shown when hovering over the button. Set to `true` to enable the tooltip, or `false` to disable it.
+
+### `smooth`
+- **Type**: `boolean`
+- **Default**: `false`
+- **Description**: Controls the scrolling behavior. Set to `true` to enable smooth scrolling when the button is clicked, or `false` for instant scrolling.
+
+### `threshold`
+- **Type**: `number`
+- **Default**: `30`
+- **Description**: Specifies the percentage of the page height that must be scrolled before the button becomes visible. For example, a value of `30` means the button appears after scrolling 30% of the page height.
+
+### `svgPath`
+- **Type**: `string`
+- **Default**: `'M18 15l-6-6-6 6'`
+- **Description**: Defines the `d` attribute of the SVG `path` element, which determines the shape of the icon. The default value creates an upward arrow. Provide a valid SVG path string to customize the icon.
+
+### `svgStrokeWidth`
+- **Type**: `number`
+- **Default**: `2`
+- **Description**: Specifies the stroke width of the SVG icon. Adjust this to make the icon's outline thicker or thinner.
+
+### `borderRadius`
+- **Type**: `string`
+- **Default**: `'15'`
+- **Description**: Sets the border radius of the button, controlling the roundness of its corners. Use a percentage value (e.g., `'50%'` for a circular button, `'0%'` for a square button) or a valid CSS length value (e.g., `'15px'`).
+

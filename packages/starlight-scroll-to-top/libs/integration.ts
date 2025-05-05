@@ -14,12 +14,8 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
     tooltipText: "Scroll to top",
     smooth: false,
     threshold: 30, // Default: show when scrolled 30% down
-    svgFillcolor: "#fff", // Empty string for currentColor
     svgPath: "M18 15l-6-6-6 6",
     svgStrokeWidth: "2",
-    width: "30",
-    height: "30",
-    viewBox: "0 0 24 24",
     borderRadius: "15",
     showTooltip: false,
     ...options

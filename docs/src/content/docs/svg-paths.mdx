@@ -8,10 +8,30 @@ order: 3
 
 import  SvgIcon  from '../../components/SvgIcon.astro'
 
-# SVG Path D Values for Seasoned Astronauts
+The tables below include some SVG paths that can be used for the scroll to top button.
 
+:::tip
+You can customize the appearance of the button by changing the **`svgPath`** options in the configuration object passed to the plugin. 
+:::
 
-| Icon Name                       | SVG Path `d` Value                                                                      | Preview                                                                                                                |
+The example below shows how to **use these paths** in your code:
+```javascript title="astro.config.mjs"
+export default defineConfig({
+   integrations: [
+     starlight({
+       plugins: [
+        starlightScrollToTop({ 
+            svgPath: 'M18 15l-6-6-6 6',
+       })
+       ]
+     })
+   ]
+ });
+```
+
+### SVG Path for Seasoned Astronauts 🚀
+
+| Icon Name                       | SVG Path (`d` Value)                                                                      | Preview                                                                                                                |
 | ------------------------------- | --------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------- |
 | Classic Rocket Up               | `M12 4L8 10H10V16H14V10H16L12 4M10 16L12 20L14 16`                                      | <SvgIcon d="M12 4L8 10H10V16H14V10H16L12 4M10 16L12 20L14 16" stroke="blue" strokeWidth="1" />                         |
 | Streamlined Rocket              | `M12 4C10 6 9 8 9 12V18H15V12C15 8 14 6 12 4M10 18L12 22L14 18`                         | <SvgIcon d="M12 4C10 6 9 8 9 12V18H15V12C15 8 14 6 12 4M10 18L12 22L14 18" stroke="blue" strokeWidth="1" />            |
@@ -31,16 +51,10 @@ import  SvgIcon  from '../../components/SvgIcon.astro'
 | Rocket with Trailing Sparks     | `M12 4L9 9H11V14H13V9H15L12 4M11 14V16M12 16V18M13 14V16`                               | <SvgIcon d="M12 4L9 9H11V14H13V9H15L12 4M11 14V16M12 16V18M13 14V16" stroke="blue" strokeWidth="1" />                    |
 
 
-# SVG Paths for Scroll to Top Button
+### SVG Paths for Scroll to Top Button
 
-Below are some SVG paths that can be used for the scroll to top button.
-:::tip
-You can customize the appearance of the button by changing the `d` attribute in the SVG path. The examples below show how to use these paths in your code.
-:::
 
-TODO: include an example of config object with the SVG path as a string.
-
-| Icon Name           | SVG Path `d` Value                                                  | Preview |
+| Icon Name           | SVG Path (`d` Value)                                                  | Preview |
 | ------------------- | ------------------------------------------------------------------- | ---- |
 | Sleek Up Arrow      | `M12 5V19M7 10L12 5L17 10`                                        |  <SvgIcon d="M12 5V19M7 10L12 5L17 10" stroke="blue" strokeWidth="2" />    |
 | Angled Chevron Up   | `M5 15L12 8L19 15`                                                  |  <SvgIcon d="M5 15L12 8L19 15" width="150" height="150" stroke="blue" strokeWidth="2" />    |
