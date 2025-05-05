@@ -14,6 +14,7 @@ export default defineConfig({
       plugins: [starlightScrollToTop(
         { position: 'right',
           threshold: 10,
+          // svgPath: "M12 4L8 10H10V16H14V10H16L12 4M10 16L12 20L14 16"
         }
       )],
       sidebar: [

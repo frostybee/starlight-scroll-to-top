@@ -1,25 +1,13 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types'
+import type ScrollToTopOptions from "./common/types.ts";
+import starlightScrollToTopIntegration from "./libs/integration.ts";
 
-import starlightScrollToTopIntegration   from "./libs/integration.ts";
 
-// Define configuration options type
-export interface ScrollToTopOptions {
-  /**
-   * Position of the scroll to top button
-   * @default 'right'
-   */
-  position?: 'left' | 'right';
-  /**
-   * Threshold for the scroll to top button to appear
-   * @default 30
-   */
-  threshold?: number;
-}
-export default function starlightScrollToTop(userConfig: ScrollToTopOptions= {}): StarlightPlugin {
+export default function starlightScrollToTop(userConfig: ScrollToTopOptions = {}): StarlightPlugin {
   return {
     name: 'starlight-scroll-to-top',
     hooks: {
-      'config:setup'({  addIntegration, config, logger, updateConfig }) {
+      'config:setup'({ addIntegration, logger }) {
         /**
          * This is the entry point of your Starlight plugin.
          * The `setup` hook is called when Starlight is initialized (during the Astro `astro:config:setup` integration
@@ -28,8 +16,8 @@ export default function starlightScrollToTop(userConfig: ScrollToTopOptions= {})
          * plugins reference.
          *
          * @see https://starlight.astro.build/reference/plugins/
-         */        
-        logger.info('Hello from the starlight-scroll-to-top plugin!')
+         */
+        //logger.info('Hello from the starlight-scroll-to-top plugin!')
         addIntegration(starlightScrollToTopIntegration(userConfig));
       },
     },

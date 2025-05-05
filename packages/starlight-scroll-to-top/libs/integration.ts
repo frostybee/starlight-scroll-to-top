@@ -1,37 +1,40 @@
 import type { AstroIntegration } from 'astro';
 import { fileURLToPath } from 'node:url';
 import { join, dirname } from 'node:path';
-import {readFileSync } from 'node:fs';
-
+import { readFileSync } from 'node:fs';
+import type ScrollToTopOptions from '../common/types.js';
 // Get directory path of current file
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// Define configuration options type
-export interface ScrollToTopOptions {
-  /**
-   * Position of the scroll to top button
-   * @default 'right'
-   */
-  position?: 'left' | 'right';
-}
 
 export default function starlightScrollToTopIntegration(options: ScrollToTopOptions = {}): AstroIntegration {
   // Set default options
   const config = {
-    position: 'right',
+    position: "right",
+    tooltipText: "Scroll to top",
+    smooth: false,
+    threshold: 30, // Default: show when scrolled 30% down
+    svgFillcolor: "#fff", // Empty string for currentColor
+    svgPath: "M18 15l-6-6-6 6",
+    svgStrokeWidth: "2",
+    width: "30",
+    height: "30",
+    viewBox: "0 0 24 24",
+    borderRadius: "15",
+    showTooltip: false,
     ...options
   };
 
   return {
     name: 'starlight-scroll-to-top',
     hooks: {
-      'astro:config:setup': ({ injectScript, logger }) => {
+      'astro:config:setup': ({ injectScript }) => {
 
         // Synchronously read the file content         
         const fileContent = readFileSync(join(__dirname, 'scroll-to-top.js'), 'utf-8');
 
         // Inject client-side script that will handle scroll behavior        
-        logger.info('Injecting scroll to top script...');
+        // logger.info('Injecting scroll to top script...');
         //logger.info(fileContent);
 
         // Pass the configuration as stringified JSON
@@ -39,8 +42,8 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
             ${fileContent};
             initScrollToTop(${JSON.stringify(config)});          
           `);
-      },      
-      'astro:build:done': ({ dir, logger }) => {
+      },
+      'astro:build:done': ({ logger }) => {
         logger.info(`Starlight Scroll To Top plugin has been installed successfully! Button position: ${config.position}`);
       }
     }

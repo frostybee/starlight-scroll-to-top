@@ -14,6 +14,7 @@
  * @param {string} config.viewBox - The SVG icon viewBox attribute
  * @param {number} config.borderRadius - The radius of the button corners, 50 for circle.
  * @param {boolean} config.showTooltip - Whether to show the tooltip on hover
+ * @param {boolean} config.svgStrokeWidth - The SVG icon stroke width
  */
 function initScrollToTop(config = {}) {
   const {
@@ -23,6 +24,7 @@ function initScrollToTop(config = {}) {
     threshold = 30, // Default: show when scrolled 30% down
     svgFillcolor = "#fff", // Empty string for currentColor
     svgPath = "M18 15l-6-6-6 6",
+    svgStrokeWidth = "2",
     width = "30",
     height = "30",
     viewBox = "0 0 24 24",
@@ -47,7 +49,7 @@ function initScrollToTop(config = {}) {
            viewBox="${viewBox}" 
            fill="none" 
            stroke="${svgFillcolor || "currentColor"}" 
-           stroke-width="2" 
+           stroke-width="${svgStrokeWidth}" 
            stroke-linecap="round" 
            stroke-linejoin="round">
         <path d="${svgPath}"/>
