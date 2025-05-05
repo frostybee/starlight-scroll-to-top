@@ -12,7 +12,9 @@ export default defineConfig({
         baseUrl: 'https://github.com/frostybee/starlight-scroll-to-top/edit/main/docs/',
       },
       plugins: [starlightScrollToTop(
-        { position: 'left' }
+        { position: 'right',
+          threshold: 10,
+        }
       )],
       sidebar: [
         {

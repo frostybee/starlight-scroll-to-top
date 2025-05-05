@@ -30,7 +30,7 @@ function initScrollToTop(config = {}) {
     showTooltip = false,
   } = config;
 
-  // document.addEventListener('DOMContentLoaded', () => {
+  document.addEventListener('DOMContentLoaded', () => {
   console.log("Scroll to top button initialized with position:", position);
 
   // Create the button element
@@ -83,13 +83,13 @@ function initScrollToTop(config = {}) {
   // Apply CSS styles with position based on config
   scrollToTopButton.style.cssText = `
       position: fixed;
-      bottom: 40px;
+      bottom: 25px;
       width: 45px;
       height: 45px;
       ${position === "left" ? "left: 40px;" : "right: 35px;"}      
       border-radius: ${borderRadius}%;
-      background-color: var(--sl-color-accent);
-      color: var(--sl-color-white);
+      background-color: var(--sl-color-text-accent);
+      color: var(--sl-color-text);
       border: none;
       cursor: pointer;
       display: flex;
@@ -114,6 +114,7 @@ function initScrollToTop(config = {}) {
   // Add tooltip display on hover
   scrollToTopButton.addEventListener("mouseenter", () => {
     scrollToTopButton.style.backgroundColor = "var(--sl-color-accent-high)";
+    scrollToTopButton.style.color = "var(--sl-color-text-invert)";
     scrollToTopButton.style.transition = "background-color 0.3s ease-in-out";
     tooltip.style.opacity = "1";
     tooltip.style.visibility = "visible";
@@ -236,7 +237,7 @@ function initScrollToTop(config = {}) {
     }
   };
 
-  // });
+  });
 }
 
 export default initScrollToTop;

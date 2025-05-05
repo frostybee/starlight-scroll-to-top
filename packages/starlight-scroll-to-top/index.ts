@@ -9,6 +9,11 @@ export interface ScrollToTopOptions {
    * @default 'right'
    */
   position?: 'left' | 'right';
+  /**
+   * Threshold for the scroll to top button to appear
+   * @default 30
+   */
+  threshold?: number;
 }
 export default function starlightScrollToTop(userConfig: ScrollToTopOptions= {}): StarlightPlugin {
   return {
