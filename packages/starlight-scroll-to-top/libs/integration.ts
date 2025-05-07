@@ -24,7 +24,7 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
   return {
     name: 'starlight-scroll-to-top',
     hooks: {
-      'astro:config:setup': ({ injectScript }) => {
+      'astro:config:setup': async ({ injectScript }) => {
 
         // Synchronously read the file content         
         const fileContent = readFileSync(join(__dirname, 'scroll-to-top.js'), 'utf-8');

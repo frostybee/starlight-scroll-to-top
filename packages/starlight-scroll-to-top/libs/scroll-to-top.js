@@ -29,7 +29,6 @@ function initScrollToTop(config = {}) {
     const scrollToTopButton = document.createElement("button");
     scrollToTopButton.id = "scroll-to-top-button";
     scrollToTopButton.ariaLabel = tooltipText;
-    scrollToTopButton.title = tooltipText;
 
     // Add button with configurable SVG icon
     scrollToTopButton.innerHTML = `
@@ -103,7 +102,7 @@ function initScrollToTop(config = {}) {
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.5s, visibility 0.6s;
+      transition: opacity 0.5s, visibility 0.4s, background-color 0.3s ease-in-out;
       z-index: 100;            
       box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
     `;
@@ -121,7 +120,7 @@ function initScrollToTop(config = {}) {
     scrollToTopButton.addEventListener("mouseenter", () => {
       scrollToTopButton.style.backgroundColor = "var(--sl-color-accent-high)";
       // scrollToTopButton.style.color = "var(--sl-color-text-invert)";
-      scrollToTopButton.style.transition = "background-color 0.3s ease-in-out";
+      // scrollToTopButton.style.transition = "background-color 0.3s ease-in-out";
       tooltip.style.opacity = "1";
       tooltip.style.visibility = "visible";
     });
@@ -132,17 +131,44 @@ function initScrollToTop(config = {}) {
       tooltip.style.visibility = "hidden";
     });
 
-    scrollToTopButton.addEventListener("focus", () => {
-      scrollToTopButton.style.outline = "none";
-    });
-
-    // Add click event to scroll to top with smooth scrolling option
-    scrollToTopButton.addEventListener("click", () => {
+    const doScrollToTop = () => {
       window.scrollTo({
         top: 0,
         behavior: smooth ? "smooth" : "auto",
       });
+    };
+    let isKeyboard = false;
+    // Detect keyboard input (e.g., Tab key)
+    scrollToTopButton.addEventListener("keydown", (event) => {
+      if (event.key === "Tab") {
+        isKeyboard = true;
+      }
+      if (event.key === "Enter") {
+        doScrollToTop();
+        // hide focus style
+        scrollToTopButton.blur();
+      }
     });
+
+    // Detect mouse input
+    scrollToTopButton.addEventListener("mousedown", () => {
+      isKeyboard = false;
+    });
+
+    // Handle focus event for buttons
+    scrollToTopButton.addEventListener("focus", () => {
+      if (isKeyboard) {
+        scrollToTopButton.style.outline = "2px solid yellow";
+        // scrollToTopButton.style.outlineOffset = "1px";
+      }
+    });
+    scrollToTopButton.addEventListener("blur", () => {
+      scrollToTopButton.style.outline = "none";
+      scrollToTopButton.style.outlineOffset = "";
+    });
+
+    // Add click event to scroll to top with smooth scrolling option
+    scrollToTopButton.addEventListener("click", doScrollToTop);
 
     // Show/hide the button based on scroll position
     const toggleScrollToTopButton = () => {
@@ -202,8 +228,11 @@ function initScrollToTop(config = {}) {
 
       // If zoom level is above a certain threshold (e.g., 1.5), hide the button
       if (zoomLevel > 3) {
+        // Hide button if zoom is above 300%
+        // scrollToTopButton.style.visibility = "hidden";
         scrollToTopButton.style.display = "none"; // Hide button if zoom is above 300%
       } else {
+        // scrollToTopButton.style.visibility = "visible";
         scrollToTopButton.style.display = "flex";
       }
     }
