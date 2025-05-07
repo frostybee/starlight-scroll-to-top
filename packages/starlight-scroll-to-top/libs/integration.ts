@@ -30,9 +30,6 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
         const fileContent = readFileSync(join(__dirname, 'scroll-to-top.js'), 'utf-8');
 
         // Inject client-side script that will handle scroll behavior        
-        // logger.info('Injecting scroll to top script...');
-        //logger.info(fileContent);
-
         // Pass the configuration as stringified JSON
         injectScript('page', `
             ${fileContent};

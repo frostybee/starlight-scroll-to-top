@@ -85,28 +85,47 @@ function initScrollToTop(config = {}) {
     //TODO: test fill color with text color.
     // Use fill color if specified, otherwise use starlight color.
     // Apply CSS styles with position based on config
-    scrollToTopButton.style.cssText = `
+    ///scrollToTopButton.style.cssText = `
+    const btnStyle = document.createElement("style");
+    btnStyle.textContent = `
+    .scroll-to-top-button{
       position: fixed;
       bottom: 35px;
       width: 43px;
       height: 43px;
       ${position === "left" ? "left: 40px;" : "right: 35px;"}      
       border-radius: ${borderRadius}%;
-      background-color: var(--sl-color-accent);
-      color: white;
+      background-color: var(--sl-color-accent-low); /* Use Starlight theme variable */
+      color: var(--sl-color-white);
       border: none;
       cursor: pointer;
       display: flex;
-      align-items: center;
-      text-align: center;
+      align-items: center;      
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.5s, visibility 0.4s, background-color 0.3s ease-in-out;
+      transition: opacity 0.4s, visibility 0.3s, background-color 0.3s ease;
       z-index: 100;            
       box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
-    `;
+    }
+      .scroll-to-top-button.visible {
+        opacity: 1;
+        visibility: visible;        
+      }
 
+      .scroll-to-top-button:hover {
+        background-color: var(--sl-color-accent); /* Darken on hover */
+        color: var(--sl-color-text-invert);
+
+      }
+
+      .scroll-to-top-button-focus {
+        outline: 2px solid var(--sl-color-accent);
+        outline-offset: 2px;
+      }
+    `;
+    document.head.appendChild(btnStyle);
+    scrollToTopButton.classList.add("scroll-to-top-button");
     // Add the button to the body
     document.body.appendChild(scrollToTopButton);
 
@@ -118,15 +137,12 @@ function initScrollToTop(config = {}) {
 
     // Add tooltip display on hover
     scrollToTopButton.addEventListener("mouseenter", () => {
-      scrollToTopButton.style.backgroundColor = "var(--sl-color-accent-high)";
-      // scrollToTopButton.style.color = "var(--sl-color-text-invert)";
-      // scrollToTopButton.style.transition = "background-color 0.3s ease-in-out";
       tooltip.style.opacity = "1";
       tooltip.style.visibility = "visible";
     });
 
     scrollToTopButton.addEventListener("mouseleave", () => {
-      scrollToTopButton.style.backgroundColor = "var(--sl-color-accent)";
+      // scrollToTopButton.style.backgroundColor = "var(--sl-color-accent-low)";
       tooltip.style.opacity = "0";
       tooltip.style.visibility = "hidden";
     });
@@ -143,10 +159,10 @@ function initScrollToTop(config = {}) {
       if (event.key === "Tab") {
         isKeyboard = true;
       }
-      if (event.key === "Enter") {
-        doScrollToTop();
-        // hide focus style
-        scrollToTopButton.blur();
+      if (event.key === "Enter") {         
+        doScrollToTop();       
+        // Hide focus style
+        scrollToTopButton.classList.remove("scroll-to-top-button-focus");
       }
     });
 
@@ -158,13 +174,12 @@ function initScrollToTop(config = {}) {
     // Handle focus event for buttons
     scrollToTopButton.addEventListener("focus", () => {
       if (isKeyboard) {
-        scrollToTopButton.style.outline = "2px solid yellow";
-        // scrollToTopButton.style.outlineOffset = "1px";
+        // We only need to outline the button when it focused using the keyboard.
+        scrollToTopButton.classList.add("scroll-to-top-button-focus");
       }
     });
     scrollToTopButton.addEventListener("blur", () => {
-      scrollToTopButton.style.outline = "none";
-      scrollToTopButton.style.outlineOffset = "";
+      scrollToTopButton.classList.remove("scroll-to-top-button-focus");
     });
 
     // Add click event to scroll to top with smooth scrolling option
@@ -185,11 +200,9 @@ function initScrollToTop(config = {}) {
 
       if (scrollPercentage > thresholdValue / 100) {
         // Show when scrolled past configured threshold
-        scrollToTopButton.style.opacity = "1";
-        scrollToTopButton.style.visibility = "visible";
+        scrollToTopButton.classList.add("visible");
       } else {
-        scrollToTopButton.style.opacity = "0";
-        scrollToTopButton.style.visibility = "hidden";
+        scrollToTopButton.classList.remove("visible");
       }
     };
 
