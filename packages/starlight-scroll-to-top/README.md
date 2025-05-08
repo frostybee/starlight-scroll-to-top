@@ -1,6 +1,7 @@
 <div align="center">
-  <h1>starlight-scroll-to-top 🚀</h1>
-  <p>A plugin for [Astro Starlight](https://starlight.astro.build/) that adds a "scroll to top" button to your documentation site.</p>
+  <h1>starlight-scroll-to-top 🚀
+ </h1>
+  <p>A plugin for Astro Starlight that adds a "scroll to top" button to your documentation site.</p>
 </div>
 
 ## Features
