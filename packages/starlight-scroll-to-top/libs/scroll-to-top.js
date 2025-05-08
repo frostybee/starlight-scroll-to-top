@@ -1,5 +1,3 @@
-// scroll-to-top.js - Client-side script for the scroll-to-top functionality
-
 /**
  * Creates and manages the scroll-to-top button
  * @param {Object} config - Configuration options
@@ -63,13 +61,9 @@ function initScrollToTop(config = {}) {
     border-right: 6px solid transparent;
     border-top: 6px solid var(--sl-color-gray-5);
   `;
-
-    //TODO: test fill color with text color.
-    // Use fill color if specified, otherwise use starlight color.
-    // Apply CSS styles with position based on config
-    ///scrollToTopButton.style.cssText = `
-    const btnStyle = document.createElement("style");
-    btnStyle.textContent = `
+       
+    const customStyle = document.createElement("style");
+    customStyle.textContent = `
     .scroll-to-top-button{
       position: fixed;
       bottom: 40px;
@@ -83,7 +77,7 @@ function initScrollToTop(config = {}) {
           : "left: 50%; transform: translateX(-50%);"
       }
       border-radius: ${borderRadius}%;
-      background-color: var(--sl-color-accent-high); /* Use Starlight theme variable */      
+      background-color: var(--sl-color-accent-high); 
       color: var(--sl-color-text-invert);
       border: none;
       cursor: pointer;
@@ -132,7 +126,7 @@ function initScrollToTop(config = {}) {
         visibility: visible;        
       }
     `;
-    document.head.appendChild(btnStyle);
+    document.head.appendChild(customStyle);
     scrollToTopButton.classList.add("scroll-to-top-button");
     // Add the button to the body
     document.body.appendChild(scrollToTopButton);
@@ -158,7 +152,6 @@ function initScrollToTop(config = {}) {
     });
 
     scrollToTopButton.addEventListener("mouseleave", () => {
-      // scrollToTopButton.style.backgroundColor = "var(--sl-color-accent-low)";
       hideTooltip();
     });
 
