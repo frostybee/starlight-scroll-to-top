@@ -14,7 +14,7 @@
  */
 function initScrollToTop(config = {}) {
   const {
-    position = "center",
+    position = "right",
     tooltipText = "Scroll to top",
     smooth = false,
     threshold = 30, // Default: show when scrolled 30% down
@@ -72,7 +72,7 @@ function initScrollToTop(config = {}) {
     btnStyle.textContent = `
     .scroll-to-top-button{
       position: fixed;
-      bottom: 135px;
+      bottom: 40px;
       width: 43px;
       height: 43px;
       ${
@@ -92,7 +92,7 @@ function initScrollToTop(config = {}) {
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.4s, visibility 0.3s, background-color 0.3s ease;
+      transition: opacity 0.3s, visibility 0.3s, background-color 0.3s ease;
       z-index: 100;            
       box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
     }
@@ -107,7 +107,7 @@ function initScrollToTop(config = {}) {
       }
 
       .scroll-to-top-button.keyboard-focus {
-        outline: 2px solid var(--sl-text-white);
+        outline: 2px solid var(--sl-color-accent);
         outline-offset: 2px;
       }
 
