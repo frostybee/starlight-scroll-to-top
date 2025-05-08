@@ -4,7 +4,7 @@ export default interface ScrollToTopOptions {
    * Position of the scroll to top button
    * @default 'right'
    */
-  position?: 'left' | 'right';
+  position?: 'left' | 'right'| 'center';
   
   /**
    * Text to show in the tooltip

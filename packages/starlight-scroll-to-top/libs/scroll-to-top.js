@@ -14,7 +14,7 @@
  */
 function initScrollToTop(config = {}) {
   const {
-    position = "right",
+    position = "center",
     tooltipText = "Scroll to top",
     smooth = false,
     threshold = 30, // Default: show when scrolled 30% down
@@ -55,7 +55,7 @@ function initScrollToTop(config = {}) {
     position: absolute;
     ${position === "left" ? "left: -25px;" : "right: -22px;"}
     top: -47px;
-    background-color: var(--sl-color-gray-5);
+    background-color: var(--sl-color-gray-6);
     color: var(--sl-color-text);
     padding: 5px 10px;
     border-radius: 4px;
@@ -90,13 +90,13 @@ function initScrollToTop(config = {}) {
     btnStyle.textContent = `
     .scroll-to-top-button{
       position: fixed;
-      bottom: 35px;
+      bottom: 135px;
       width: 43px;
       height: 43px;
-      ${position === "left" ? "left: 40px;" : "right: 35px;"}      
+      ${position === "left" ? "left: 40px;" : position === "right" ? "right: 35px;" : "left: 50%; transform: translateX(-50%);"}
       border-radius: ${borderRadius}%;
-      background-color: var(--sl-color-accent-low); /* Use Starlight theme variable */
-      color: var(--sl-color-white);
+      background-color: var(--sl-color-accent-high); /* Use Starlight theme variable */      
+      color: var(--sl-color-text-invert);
       border: none;
       cursor: pointer;
       display: flex;
@@ -115,12 +115,11 @@ function initScrollToTop(config = {}) {
 
       .scroll-to-top-button:hover {
         background-color: var(--sl-color-accent); /* Darken on hover */
-        color: var(--sl-color-text-invert);
-
+        color: var(--sl-text-white);
       }
 
-      .scroll-to-top-button-focus {
-        outline: 2px solid var(--sl-color-accent);
+      .scroll-to-top-button.keyboard-focus {
+        outline: 2px solid var(--sl-text-white);
         outline-offset: 2px;
       }
     `;
@@ -134,6 +133,10 @@ function initScrollToTop(config = {}) {
       tooltip.appendChild(arrow);
       scrollToTopButton.appendChild(tooltip);
     }
+    const hideTooltip = () => {
+      tooltip.style.opacity = "0";
+      tooltip.style.visibility = "hidden";
+    }
 
     // Add tooltip display on hover
     scrollToTopButton.addEventListener("mouseenter", () => {
@@ -143,11 +146,11 @@ function initScrollToTop(config = {}) {
 
     scrollToTopButton.addEventListener("mouseleave", () => {
       // scrollToTopButton.style.backgroundColor = "var(--sl-color-accent-low)";
-      tooltip.style.opacity = "0";
-      tooltip.style.visibility = "hidden";
+     hideTooltip();
     });
 
     const doScrollToTop = () => {
+      hideTooltip();
       window.scrollTo({
         top: 0,
         behavior: smooth ? "smooth" : "auto",
@@ -162,7 +165,7 @@ function initScrollToTop(config = {}) {
       if (event.key === "Enter") {         
         doScrollToTop();       
         // Hide focus style
-        scrollToTopButton.classList.remove("scroll-to-top-button-focus");
+        scrollToTopButton.classList.remove("keyboard-focus");
       }
     });
 
@@ -175,11 +178,11 @@ function initScrollToTop(config = {}) {
     scrollToTopButton.addEventListener("focus", () => {
       if (isKeyboard) {
         // We only need to outline the button when it focused using the keyboard.
-        scrollToTopButton.classList.add("scroll-to-top-button-focus");
+        scrollToTopButton.classList.add("keyboard-focus");
       }
     });
     scrollToTopButton.addEventListener("blur", () => {
-      scrollToTopButton.classList.remove("scroll-to-top-button-focus");
+      scrollToTopButton.classList.remove("keyboard-focus");
     });
 
     // Add click event to scroll to top with smooth scrolling option
