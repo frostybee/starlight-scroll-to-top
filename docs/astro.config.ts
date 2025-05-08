@@ -13,7 +13,7 @@ export default defineConfig({
       },
       plugins: [
         starlightScrollToTop({
-          position: 'right',
+          position: 'center',
           tooltipText: 'Back to top',
           showTooltip: true,
           smooth: true,

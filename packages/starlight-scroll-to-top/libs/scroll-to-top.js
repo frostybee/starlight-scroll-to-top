@@ -48,25 +48,7 @@ function initScrollToTop(config = {}) {
     // Create tooltip element
     const tooltip = document.createElement("div");
     tooltip.id = "scroll-to-top-tooltip";
-    tooltip.textContent = tooltipText;
-
-    // Apply tooltip styles with position based on config
-    tooltip.style.cssText = `
-    position: absolute;
-    ${position === "left" ? "left: -25px;" : "right: -22px;"}
-    top: -47px;
-    background-color: var(--sl-color-gray-6);
-    color: var(--sl-color-text);
-    padding: 5px 10px;
-    border-radius: 4px;
-    font-weight: 400;
-    font-size: 14px;
-    white-space: nowrap;
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.2s, visibility 0.3s;
-    pointer-events: none;
-  `;
+    tooltip.textContent = tooltipText;  
 
     // Create the arrow element
     const arrow = document.createElement("div");
@@ -93,7 +75,13 @@ function initScrollToTop(config = {}) {
       bottom: 135px;
       width: 43px;
       height: 43px;
-      ${position === "left" ? "left: 40px;" : position === "right" ? "right: 35px;" : "left: 50%; transform: translateX(-50%);"}
+      ${
+        position === "left"
+          ? "left: 40px;"
+          : position === "right"
+          ? "right: 35px;"
+          : "left: 50%; transform: translateX(-50%);"
+      }
       border-radius: ${borderRadius}%;
       background-color: var(--sl-color-accent-high); /* Use Starlight theme variable */      
       color: var(--sl-color-text-invert);
@@ -122,6 +110,27 @@ function initScrollToTop(config = {}) {
         outline: 2px solid var(--sl-text-white);
         outline-offset: 2px;
       }
+
+      .scroll-to-top-btn-tooltip {
+        position: absolute;
+        ${position === "left" ? "left: -25px;" : "right: -22px;"}
+        top: -47px;
+        background-color: var(--sl-color-gray-6);
+        color: var(--sl-color-text);
+        padding: 5px 10px;
+        border-radius: 4px;
+        font-weight: 400;
+        font-size: 14px;
+        white-space: nowrap;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.2s, visibility 0.3s;
+        pointer-events: none;
+     }
+      .scroll-to-top-btn-tooltip.visible {
+        opacity: 1;
+        visibility: visible;        
+      }
     `;
     document.head.appendChild(btnStyle);
     scrollToTopButton.classList.add("scroll-to-top-button");
@@ -130,23 +139,27 @@ function initScrollToTop(config = {}) {
 
     // Add tooltip to the button's container
     if (showTooltip) {
+      tooltip.classList.add("scroll-to-top-btn-tooltip");
       tooltip.appendChild(arrow);
       scrollToTopButton.appendChild(tooltip);
     }
     const hideTooltip = () => {
-      tooltip.style.opacity = "0";
-      tooltip.style.visibility = "hidden";
-    }
+      tooltip.classList.remove("visible");
+    };
+    const openTooltip = () => {
+      if (showTooltip) {
+        tooltip.classList.add("visible");  
+      }      
+    };
 
     // Add tooltip display on hover
     scrollToTopButton.addEventListener("mouseenter", () => {
-      tooltip.style.opacity = "1";
-      tooltip.style.visibility = "visible";
+      openTooltip();
     });
 
     scrollToTopButton.addEventListener("mouseleave", () => {
       // scrollToTopButton.style.backgroundColor = "var(--sl-color-accent-low)";
-     hideTooltip();
+      hideTooltip();
     });
 
     const doScrollToTop = () => {
@@ -160,10 +173,10 @@ function initScrollToTop(config = {}) {
     // Detect keyboard input (e.g., Tab key)
     scrollToTopButton.addEventListener("keydown", (event) => {
       if (event.key === "Tab") {
-        isKeyboard = true;
+        isKeyboard = true;        
       }
-      if (event.key === "Enter") {         
-        doScrollToTop();       
+      if (event.key === "Enter") {
+        doScrollToTop();        
         // Hide focus style
         scrollToTopButton.classList.remove("keyboard-focus");
       }
@@ -178,10 +191,12 @@ function initScrollToTop(config = {}) {
     scrollToTopButton.addEventListener("focus", () => {
       if (isKeyboard) {
         // We only need to outline the button when it focused using the keyboard.
+        openTooltip();
         scrollToTopButton.classList.add("keyboard-focus");
       }
     });
     scrollToTopButton.addEventListener("blur", () => {
+      hideTooltip();
       scrollToTopButton.classList.remove("keyboard-focus");
     });
 
