@@ -17,10 +17,11 @@ export default defineConfig({
           tooltipText: 'Back to top',
           showTooltip: true,
           smooth: true,
-          threshold: 20,
+          threshold: 10,
           svgPath: 'M12 4L6 10H9V16H15V10H18L12 4M9 16L12 20L15 16',
           svgStrokeWidth: 2,
           borderRadius: '15',
+          shouldScale: true,
         }
         )],
       sidebar: [

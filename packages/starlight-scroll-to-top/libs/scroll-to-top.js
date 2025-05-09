@@ -20,6 +20,7 @@ function initScrollToTop(config = {}) {
     svgStrokeWidth = "2",
     borderRadius = "15",
     showTooltip = false,
+    shouldScale = false,
   } = config;
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -27,6 +28,7 @@ function initScrollToTop(config = {}) {
     const scrollToTopButton = document.createElement("button");
     scrollToTopButton.id = "scroll-to-top-button";
     scrollToTopButton.ariaLabel = tooltipText;
+    let isKeyboard = false;
 
     // Add button with configurable SVG icon
     scrollToTopButton.innerHTML = `
@@ -46,7 +48,7 @@ function initScrollToTop(config = {}) {
     // Create tooltip element
     const tooltip = document.createElement("div");
     tooltip.id = "scroll-to-top-tooltip";
-    tooltip.textContent = tooltipText;  
+    tooltip.textContent = tooltipText;
 
     // Create the arrow element
     const arrow = document.createElement("div");
@@ -61,7 +63,7 @@ function initScrollToTop(config = {}) {
     border-right: 6px solid transparent;
     border-top: 6px solid var(--sl-color-gray-5);
   `;
-       
+
     const customStyle = document.createElement("style");
     customStyle.textContent = `
     .scroll-to-top-button{
@@ -98,10 +100,11 @@ function initScrollToTop(config = {}) {
       .scroll-to-top-button:hover {
         background-color: var(--sl-color-accent); /* Darken on hover */
         color: var(--sl-text-white);
+        ${(shouldScale) ? "transform: scale(1.1);" : ""}        
       }
 
       .scroll-to-top-button.keyboard-focus {
-        outline: 2px solid var(--sl-color-accent);
+        outline: 2px solid var(--sl-color-text);
         outline-offset: 2px;
       }
 
@@ -142,8 +145,8 @@ function initScrollToTop(config = {}) {
     };
     const openTooltip = () => {
       if (showTooltip) {
-        tooltip.classList.add("visible");  
-      }      
+        tooltip.classList.add("visible");
+      }
     };
 
     // Add tooltip display on hover
@@ -162,22 +165,25 @@ function initScrollToTop(config = {}) {
         behavior: smooth ? "smooth" : "auto",
       });
     };
-    let isKeyboard = false;
-    // Detect keyboard input (e.g., Tab key)
-    scrollToTopButton.addEventListener("keydown", (event) => {
+
+    // Detect keyboard input globally (e.g., Tab key).
+    //This ensures that the isKeyboard flag is set as soon as the Tab key is pressed, before the focus event is triggered on the button.
+    document.addEventListener("keydown", (event) => {
       if (event.key === "Tab") {
-        isKeyboard = true;        
-      }
-      if (event.key === "Enter") {
-        doScrollToTop();        
-        // Hide focus style
-        scrollToTopButton.classList.remove("keyboard-focus");
+        isKeyboard = true;
       }
     });
-
     // Detect mouse input
     scrollToTopButton.addEventListener("mousedown", () => {
       isKeyboard = false;
+    });
+    // Detect keyboard input (e.g., Tab key)
+    scrollToTopButton.addEventListener("keydown", (event) => {
+      if (event.key === "Enter") {
+        doScrollToTop();
+        // Hide focus style
+        scrollToTopButton.classList.remove("keyboard-focus");
+      }
     });
 
     // Handle focus event for buttons

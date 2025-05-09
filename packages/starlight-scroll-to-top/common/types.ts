@@ -23,6 +23,8 @@ export default interface ScrollToTopOptions {
    * @default false
    */
   smooth?: boolean;
+  
+   
 
   /**
    * Height after page scroll to be visible (percentage)
@@ -48,5 +50,11 @@ export default interface ScrollToTopOptions {
    * @default "15"
    */
   borderRadius?: string;
+  
+  /**
+   * Whether to scale the button on hover
+   * @default false
+   */
+  shouldScale?: boolean;
   
 }

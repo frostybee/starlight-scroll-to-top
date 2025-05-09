@@ -18,6 +18,7 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
     svgStrokeWidth: "2",
     borderRadius: "15",
     showTooltip: false,
+    shouldScale: false,
     ...options
   };
 

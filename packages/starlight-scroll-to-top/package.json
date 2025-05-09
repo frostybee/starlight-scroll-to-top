@@ -1,9 +1,14 @@
 {
   "name": "starlight-scroll-to-top",
-  "version": "0.0.1",
+  "version": "0.1.1",
   "license": "MIT",
   "description": "Add a scroll to top button to your documentation website.",
   "author": "frostybee",
+  "keywords": [
+    "starlight",
+    "scroll-to-top",
+    "documentation"
+  ],
   "type": "module",
   "exports": {
     ".": "./index.ts"
@@ -19,7 +24,8 @@
     "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "homepage": "https://github.com/frostybee/starlight-scroll-to-top",
   "repository": {
