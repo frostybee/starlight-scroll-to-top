@@ -58,8 +58,7 @@ The Starlight scroll-to-top plugin **accepts an object** with the following **op
 ### `threshold`
 - **Type**: `number`
 - **Default**: `30`
-- **Description**: Specifies the percentage of the page height that must be scrolled before the button becomes visible. A a number between `10` and `99` should be specified. 
-For example, a value of `30` means the button appears after scrolling 30% of the page height.
+- **Description**: Indicates the percentage of the total page height (not limited to the viewport) that must be scrolled before the button is shown. The value should be a number between 10 and 99. For instance, setting it to 30 means the button will appear after 30% of the full page has been scrolled.
 
 ### `svgPath`
 - **Type**: `string`
@@ -88,7 +87,7 @@ export default defineConfig({
             position: 'left',
             tooltipText: 'Back to top',
             showTooltip: true,
-            smooth: true,
+            smoothScroll: true,
             threshold: 20,
             svgPath: 'M18 15l-6-6-6 6',
             svgStrokeWidth: 1,
