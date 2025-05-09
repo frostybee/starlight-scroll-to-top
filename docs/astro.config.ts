@@ -16,12 +16,11 @@ export default defineConfig({
           position: 'right',
           tooltipText: 'Back to top',
           showTooltip: true,
-          smooth: true,
+          smoothScroll: true,
           threshold: 10,
           svgPath: 'M12 4L6 10H9V16H15V10H18L12 4M9 16L12 20L15 16',
           svgStrokeWidth: 2,
-          borderRadius: '15',
-          shouldScale: true,
+          borderRadius: '15'          
         }
         )],
       sidebar: [

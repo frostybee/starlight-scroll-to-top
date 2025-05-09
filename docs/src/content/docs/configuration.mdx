@@ -33,22 +33,6 @@ export default defineConfig({
 ```
 
 ## Configuration Options
-
-The following table summarizes the configuration options for the Astro Starlight Scroll to Top plugin, including their names, data types, default values, and brief descriptions.
-
-| Option Name           |  Type          | Default Value             | Description                                                                 |
-|-----------------------|--------------------|---------------------------|-----------------------------------------------------------------------------|
-| `position`            | `'left' \| 'right' \| center` | `'right'`                 | Sets the button's position on the page (left, center, or right).                     |
-| `tooltipText`         | `string`           | `'Scroll to top'`         | Text displayed in the tooltip on hover.                                     |
-| `showTooltip`         | `boolean`          | `false`                   | Enables or disables the tooltip on hover.                                   |
-| `smooth`              | `boolean`          | `false`                   | Enables smooth scrolling when the button is clicked.                        |
-| `threshold`           | `number`           | `30`                      | Percentage of page height scrolled before the button appears.               |
-| `svgPath`             | `string`           | `'M18 15l-6-6-6 6'`      | SVG path `d` attribute defining the icon shape (default is an upward arrow).|
-| `svgStrokeWidth`      | `number`           | `2`                       | Stroke width of the SVG icon.                                              |
-| `borderRadius`        | `string`           | `'15'`                    | Border radius of the button (e.g., `'50'` for circle, `'0'` for square).  |
-| `shouldScale`         | `boolean`          | `false`                   | Enables or disables scaling of the button on hover.                        |
-
-## Detailed Configuration Options
 The Starlight scroll-to-top plugin **accepts an object** with the following **options**. You can customize these options to fit your needs. The default values are provided for each option.
 
 ### `position`
@@ -71,9 +55,9 @@ The Starlight scroll-to-top plugin **accepts an object** with the following **op
 - **Default**: `false`
 - **Description**: Controls whether the button scales when hovered over. Set to `true` to enable scaling, or `false` to disable it. 
 
-### `smooth`
+### `smoothScroll`
 - **Type**: `boolean`
-- **Default**: `false`
+- **Default**: `true`
 - **Description**: Controls the scrolling behavior. Set to `true` to enable smooth scrolling when the button is clicked, or `false` for instant scrolling.
 
 ### `threshold`

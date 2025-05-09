@@ -20,11 +20,9 @@ export default interface ScrollToTopOptions {
 
   /**
    * Whether to use smooth scrolling
-   * @default false
+   * @default true
    */
-  smooth?: boolean;
-  
-   
+  smoothScroll?: boolean;
 
   /**
    * Height after page scroll to be visible (percentage)
@@ -49,12 +47,5 @@ export default interface ScrollToTopOptions {
    * The radius of the button corners. 50% for circle, 0% for square
    * @default "15"
    */
-  borderRadius?: string;
-  
-  /**
-   * Whether to scale the button on hover
-   * @default false
-   */
-  shouldScale?: boolean;
-  
+  borderRadius?: string;   
 }

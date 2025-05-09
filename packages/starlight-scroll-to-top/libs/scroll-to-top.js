@@ -3,7 +3,7 @@
  * @param {Object} config - Configuration options
  * @param {string} config.position - Button position relative to the bottom corner of the page ('left' or 'right')
  * @param {string} config.tooltipText - Text to show in the tooltip
- * @param {boolean} config.smooth - Whether to use smooth scrolling
+ * @param {boolean} config.smoothScroll - Whether to use smooth scrolling
  * @param {number} config.threshold - Height after page scroll to be visible (percentage)
  * @param {string} config.svgPath - The SVG icon path d attribute
  * @param {number} config.borderRadius - The radius of the button corners, 50 for circle.
@@ -14,13 +14,12 @@ function initScrollToTop(config = {}) {
   const {
     position = "right",
     tooltipText = "Scroll to top",
-    smooth = false,
+    smoothScroll = true,
     threshold = 30, // Default: show when scrolled 30% down
     svgPath = "M18 15l-6-6-6 6",
     svgStrokeWidth = "2",
     borderRadius = "15",
-    showTooltip = false,
-    shouldScale = false,
+    showTooltip = false,    
   } = config;
 
   document.addEventListener("DOMContentLoaded", () => {
@@ -66,7 +65,7 @@ function initScrollToTop(config = {}) {
 
     const customStyle = document.createElement("style");
     customStyle.textContent = `
-    .scroll-to-top-button{
+    .scroll-to-top-button {
       position: fixed;
       bottom: 40px;
       width: 43px;
@@ -75,8 +74,8 @@ function initScrollToTop(config = {}) {
         position === "left"
           ? "left: 40px;"
           : position === "right"
-          ? "right: 35px;"
-          : "left: 50%; transform: translateX(-50%);"
+            ? "right: 35px;"
+            : "left: 50%; transform: translateX(-50%);"
       }
       border-radius: ${borderRadius}%;
       background-color: var(--sl-color-accent-high); 
@@ -88,10 +87,23 @@ function initScrollToTop(config = {}) {
       justify-content: center;
       opacity: 0;
       visibility: hidden;
-      transition: opacity 0.3s, visibility 0.3s, background-color 0.3s ease;
+      transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;      
       z-index: 100;            
       box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+      transform-origin: center;
+      -webkit-tap-highlight-color: transparent; /* Disable mobile tap highlight */
+      touch-action: manipulation; /* Prevent double-tap zoom */
+      
     }
+      .scroll-to-top-button:active {
+        background-color: var(--sl-color-accent-dark); 
+        color: var(--sl-text-white);        
+        transition: background-color 0.1s ease, transform 0.1s ease; 
+     }
+        /* Ensure default state after interaction */
+       .scroll-to-top-button:not(:hover):not(:active) {         
+         background-color: var(--sl-color-accent-high);
+       }
       .scroll-to-top-button.visible {
         opacity: 1;
         visibility: visible;        
@@ -99,10 +111,9 @@ function initScrollToTop(config = {}) {
 
       .scroll-to-top-button:hover {
         background-color: var(--sl-color-accent); /* Darken on hover */
-        color: var(--sl-text-white);
-        ${(shouldScale) ? "transform: scale(1.1);" : ""}        
+        color: var(--sl-text-white);                
       }
-
+      
       .scroll-to-top-button.keyboard-focus {
         outline: 2px solid var(--sl-color-text);
         outline-offset: 2px;
@@ -139,7 +150,9 @@ function initScrollToTop(config = {}) {
       tooltip.classList.add("scroll-to-top-btn-tooltip");
       tooltip.appendChild(arrow);
       scrollToTopButton.appendChild(tooltip);
+      scrollToTopButton.appendChild(tooltip);
     }
+    
     const hideTooltip = () => {
       tooltip.classList.remove("visible");
     };
@@ -162,8 +175,10 @@ function initScrollToTop(config = {}) {
       hideTooltip();
       window.scrollTo({
         top: 0,
-        behavior: smooth ? "smooth" : "auto",
+        behavior: smoothScroll ? "smooth" : "auto",
       });
+      // Explicitly reset styles after scroll      
+      scrollToTopButton.classList.remove("active");
     };
 
     // Detect keyboard input globally (e.g., Tab key).
@@ -199,8 +214,24 @@ function initScrollToTop(config = {}) {
       scrollToTopButton.classList.remove("keyboard-focus");
     });
 
+    // Handle mobile taps
+    scrollToTopButton.addEventListener("touchstart", (e) => {
+      e.preventDefault(); // Prevent default touch behavior
+      scrollToTopButton.classList.add("active");
+    });
+
+    scrollToTopButton.addEventListener("touchend", (e) => {
+      e.preventDefault(); // Prevent default touch behavior
+      doScrollToTop();
+      scrollToTopButton.classList.remove("active");      
+    });
+
     // Add click event to scroll to top with smooth scrolling option
-    scrollToTopButton.addEventListener("click", doScrollToTop);
+    // Handle desktop clicks
+    scrollToTopButton.addEventListener("click", (e) => {
+      e.preventDefault(); // Prevent default click behavior
+      doScrollToTop();
+    });
 
     // Show/hide the button based on scroll position
     const toggleScrollToTopButton = () => {

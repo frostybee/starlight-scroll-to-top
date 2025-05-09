@@ -12,13 +12,12 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
   const config = {
     position: "right",
     tooltipText: "Scroll to top",
-    smooth: false,
+    smoothScroll: true,
     threshold: 30, // Default: show when scrolled 30% down
     svgPath: "M18 15l-6-6-6 6",
     svgStrokeWidth: "2",
     borderRadius: "15",
-    showTooltip: false,
-    shouldScale: false,
+    showTooltip: false,    
     ...options
   };
 
