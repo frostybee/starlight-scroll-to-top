@@ -78,8 +78,8 @@ function initScrollToTop(config = {}) {
             : "left: 50%; transform: translateX(-50%);"
       }
       border-radius: ${borderRadius}%;
-      background-color: var(--sl-color-accent-high); 
-      color: var(--sl-color-text-invert);
+      background-color: var(--sl-color-bg-sidebar); 
+      color: var(--sl-color-text);
       border: none;
       cursor: pointer;
       display: flex;
@@ -102,7 +102,7 @@ function initScrollToTop(config = {}) {
      }
         /* Ensure default state after interaction */
        .scroll-to-top-button:not(:hover):not(:active) {         
-         background-color: var(--sl-color-accent-high);
+         background-color: var(--sl-color-bg-sidebar);
        }
       .scroll-to-top-button.visible {
         opacity: 1;
@@ -110,8 +110,8 @@ function initScrollToTop(config = {}) {
       }
 
       .scroll-to-top-button:hover {
-        background-color: var(--sl-color-accent); /* Darken on hover */
-        color: var(--sl-text-white);                
+        background-color: var(--sl-color-accent); 
+        color: white;          
       }
       
       .scroll-to-top-button.keyboard-focus {
