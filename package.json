@@ -22,7 +22,7 @@
     "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
   },
   "packageManager": "pnpm@9.6.0",
-  "private": true,
+  "private": false,
   "sideEffects": false,
   "homepage": "https://github.com/frostybee/starlight-scroll-to-top",
   "repository": {
