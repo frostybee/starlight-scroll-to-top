@@ -1,5 +1,11 @@
 # starlight-scroll-to-top
 
+## 0.3.0
+
+### Minor Changes
+
+- [`fac8e69`](https://github.com/frostybee/starlight-scroll-to-top/commit/fac8e69011d9fb2e685567685b459f35e52bd4b4) Thanks [@frostybee](https://github.com/frostybee)! - Initial public release
+
 ## 0.2.0
 
 ### Minor Changes
