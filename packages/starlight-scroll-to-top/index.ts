@@ -5,7 +5,7 @@ import starlightScrollToTopIntegration from "./libs/integration.ts";
 
 export default function starlightScrollToTop(userConfig: ScrollToTopOptions = {}): StarlightPlugin {
   return {
-    name: 'starlight-scroll-to-top',
+    name: 'starlight-scroll-to-top-plugin',
     hooks: {
       'config:setup'({ addIntegration, logger }) {
         /**

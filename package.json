@@ -9,10 +9,10 @@
     "release": "changeset publish",
     "version": "pnpm changeset version && pnpm i --no-frozen-lockfile"
   },
-  "devDependencies": {    
+  "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
     "@changesets/cli": "^2.29.3",
-    "@trivago/prettier-plugin-sort-imports": "5.2.2",        
+    "@trivago/prettier-plugin-sort-imports": "5.2.2",
     "eslint": "^9.26.0",
     "prettier": "^3.5.3",
     "prettier-plugin-astro": "^0.14.1",
@@ -21,14 +21,13 @@
   "engines": {
     "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
   },
-  "packageManager": "pnpm@9.6.0",
-  "private": false,
+  "packageManager": "pnpm@9.6.0",  
   "sideEffects": false,
   "homepage": "https://github.com/frostybee/starlight-scroll-to-top",
   "repository": {
     "type": "git",
     "url": "https://github.com/frostybee/starlight-scroll-to-top.git",
-     "directory": "packages/starlight-scroll-to-top"
+    "directory": "packages/starlight-scroll-to-top"
   },
   "bugs": "https://github.com/frostybee/starlight-scroll-to-top/issues"
 }

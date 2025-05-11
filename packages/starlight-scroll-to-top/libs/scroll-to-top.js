@@ -68,8 +68,8 @@ function initScrollToTop(config = {}) {
     .scroll-to-top-button {
       position: fixed;
       bottom: 40px;
-      width: 43px;
-      height: 43px;
+      width: 47px;
+      height: 47px;
       ${
         position === "left"
           ? "left: 40px;"
@@ -77,10 +77,8 @@ function initScrollToTop(config = {}) {
             ? "right: 35px;"
             : "left: 50%; transform: translateX(-50%);"
       }
-      border-radius: ${borderRadius}%;
-      background-color: var(--sl-color-bg-sidebar); 
-      color: var(--sl-color-text);
-      border: none;
+      border-radius: ${borderRadius}%;     
+      background-color: var(--sl-color-bg-sidebar);       
       cursor: pointer;
       display: flex;
       align-items: center;      
@@ -89,7 +87,7 @@ function initScrollToTop(config = {}) {
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;      
       z-index: 100;            
-      box-shadow: rgba(0, 0, 0, 0.25) 0px 5px 15px;
+      border: none;
       transform-origin: center;
       -webkit-tap-highlight-color: transparent; /* Disable mobile tap highlight */
       touch-action: manipulation; /* Prevent double-tap zoom */
@@ -102,16 +100,23 @@ function initScrollToTop(config = {}) {
      }
         /* Ensure default state after interaction */
        .scroll-to-top-button:not(:hover):not(:active) {         
-         background-color: var(--sl-color-bg-sidebar);
+        background-color: var(--sl-color-bg-sidebar);  
+            border: 1px solid var(--sl-color-gray-5);  
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 4px 8px 0 rgba(0,0,0,0.2);
        }
       .scroll-to-top-button.visible {
         opacity: 1;
         visibility: visible;        
       }
+      :root["theme-dark"] .scroll-to-top-button {
+         border: 1px solid yellow;
+       }
 
       .scroll-to-top-button:hover {
         background-color: var(--sl-color-accent); 
-        color: white;          
+        box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 4px 8px 0 rgba(0,0,0,0.2);
+        color: white;
+        border: none;     
       }
       
       .scroll-to-top-button.keyboard-focus {
