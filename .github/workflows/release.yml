@@ -35,10 +35,14 @@ jobs:
       - name: Create Release Pull Request or Publish
         uses: changesets/action@v1
         with:
-          version: pnpm run version
-          publish: pnpm changeset publish
+          version: pnpm run version          
+          publish: pnpm changeset publish --access public
           commit: 'ci: release'
           title: 'ci: release'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Verify Package
+        run: npm view starlight-scroll-to-top --registry https://registry.npmjs.org
+        

@@ -64,7 +64,7 @@ export default defineConfig({
           tooltipText: 'Back to top',          
           showTooltip: true,
           // Use smooth scrolling
-          smooth: true,        
+          smoothScroll: true,        
           // Visibility threshold (show after scrolling 20% down)
           threshold: 20,          
           // Customize the SVG icon

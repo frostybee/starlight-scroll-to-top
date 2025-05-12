@@ -20,15 +20,16 @@ export default defineConfig({
           threshold: 10,
           svgPath: 'M12 4L6 10H9V16H15V10H18L12 4M9 16L12 20L15 16',
           svgStrokeWidth: 2,
-          borderRadius: '20'          
+          borderRadius: '20'
         }
         )],
       sidebar: [
         {
           label: 'Start Here',
           collapsed: false,
-          items: [{ slug: 'getting-started' },
-          { slug: 'configuration' },
+          items: [
+            { slug: 'getting-started' },
+            { slug: 'configuration' },
 
           ],
         },
