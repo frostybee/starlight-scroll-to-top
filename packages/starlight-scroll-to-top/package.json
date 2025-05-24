@@ -6,6 +6,8 @@
   "author": "frostybee",
   "keywords": [
     "starlight",
+    "astro",
+    "scroll",
     "scroll-to-top",
     "documentation"
   ],
@@ -20,13 +22,15 @@
   "peerDependencies": {
     "@astrojs/starlight": ">=0.34"
   },
+  "packageManager": "pnpm@10.10.0",
   "engines": {
     "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
-  },
+  },  
   "publishConfig": {
     "access": "public",
     "provenance": true
   },
+  "sideEffects": false,
   "homepage": "https://github.com/frostybee/starlight-scroll-to-top",
   "repository": {
     "type": "git",
