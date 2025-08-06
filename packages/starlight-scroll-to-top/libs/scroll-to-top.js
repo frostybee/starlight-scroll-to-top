@@ -22,8 +22,15 @@ function initScrollToTop(config = {}) {
     showTooltip = false,    
   } = config;
 
-  document.addEventListener("DOMContentLoaded", () => {
-    // Create the button element
+  // Store cleanup function globally to handle view transitions
+  let cleanup = null;
+
+  const initButton = () => {
+    // Clean up existing button if it exists. 
+    if (cleanup) {
+      cleanup();
+    }
+    // Create the button element.
     const scrollToTopButton = document.createElement("button");
     scrollToTopButton.id = "scroll-to-top-button";
     scrollToTopButton.ariaLabel = tooltipText;
@@ -32,7 +39,7 @@ function initScrollToTop(config = {}) {
     scrollToTopButton.setAttribute('tabindex', '0');
     let isKeyboard = false;
 
-    // Add button with configurable SVG icon
+    // Add button with configurable SVG icon.
     scrollToTopButton.innerHTML = `
       <svg xmlns="http://www.w3.org/2000/svg" 
            width="35" 
@@ -47,12 +54,12 @@ function initScrollToTop(config = {}) {
       </svg>
     `;
 
-    // Create tooltip element
+    // Create tooltip element.
     const tooltip = document.createElement("div");
     tooltip.id = "scroll-to-top-tooltip";
     tooltip.textContent = tooltipText;
 
-    // Create the arrow element
+    // Create the arrow element.
     const arrow = document.createElement("div");
     arrow.style.cssText = `
     position: absolute;
@@ -66,7 +73,9 @@ function initScrollToTop(config = {}) {
     border-top: 6px solid var(--sl-color-gray-5);
   `;
 
+    // Create the custom style element.
     const customStyle = document.createElement("style");
+    customStyle.id = "scroll-to-top-styles";
     customStyle.textContent = `
     .scroll-to-top-button {
       position: fixed;
@@ -142,10 +151,10 @@ function initScrollToTop(config = {}) {
     `;
     document.head.appendChild(customStyle);
     scrollToTopButton.classList.add("scroll-to-top-button");
-    // Add the button to the body
+    // Add the button to the body.
     document.body.appendChild(scrollToTopButton);
 
-    // Add tooltip to the button's container
+    // Add tooltip to the button's container.
     if (showTooltip) {
       tooltip.classList.add("scroll-to-top-btn-tooltip");
       tooltip.appendChild(arrow);
@@ -161,7 +170,7 @@ function initScrollToTop(config = {}) {
       }
     };
 
-    // Add tooltip display on hover
+    // Add tooltip display on hover.
     scrollToTopButton.addEventListener("mouseenter", () => {
       openTooltip();
     });
@@ -191,16 +200,16 @@ function initScrollToTop(config = {}) {
     scrollToTopButton.addEventListener("mousedown", () => {
       isKeyboard = false;
     });
-    // Detect keyboard input (e.g., Tab key)
+    // Detect keyboard input (e.g., Tab key).
     scrollToTopButton.addEventListener("keydown", (event) => {
       if (event.key === "Enter") {
         doScrollToTop();
-        // Hide focus style
+        // Hide focus style.
         scrollToTopButton.classList.remove("keyboard-focus");
       }
     });
 
-    // Handle focus event for buttons
+    // Handle focus event for buttons.
     scrollToTopButton.addEventListener("focus", () => {
       if (isKeyboard) {
         // We only need to outline the button when it focused using the keyboard.
@@ -213,26 +222,26 @@ function initScrollToTop(config = {}) {
       scrollToTopButton.classList.remove("keyboard-focus");
     });
 
-    // Handle mobile taps
+    // Handle mobile taps.
     scrollToTopButton.addEventListener("touchstart", (e) => {
-      e.preventDefault(); // Prevent default touch behavior
+      e.preventDefault(); // Prevent default touch behavior.
       scrollToTopButton.classList.add("active");
     });
 
     scrollToTopButton.addEventListener("touchend", (e) => {
-      e.preventDefault(); // Prevent default touch behavior
+      e.preventDefault(); // Prevent default touch behavior.
       doScrollToTop();
       scrollToTopButton.classList.remove("active");      
     });
 
-    // Add click event to scroll to top with smooth scrolling option
-    // Handle desktop clicks
+    // Add click event to scroll to top with smooth scrolling option.
+    // Handle desktop clicks.
     scrollToTopButton.addEventListener("click", (e) => {
-      e.preventDefault(); // Prevent default click behavior
+      e.preventDefault(); // Prevent default click behavior.
       doScrollToTop();
     });
 
-    // Throttle function for performance optimization
+    // Throttle function for performance optimization.
     function throttle(func, limit) {
       let inThrottle;
       return function() {
@@ -246,35 +255,35 @@ function initScrollToTop(config = {}) {
       }
     }
 
-    // Show/hide the button based on scroll position
+    // Show/hide the button based on scroll position.
     const toggleScrollToTopButton = () => {
       const scrollPosition = window.scrollY;
       const viewportHeight = window.innerHeight;
       const pageHeight = document.documentElement.scrollHeight;
 
-      // Calculate how far down the page the user has scrolled
+      // Calculate how far down the page the user has scrolled.
       const scrollPercentage = scrollPosition / (pageHeight - viewportHeight);
 
-      // Ensure threshold is between 10 and 99
+      // Ensure threshold is between 10 and 99.
       const thresholdValue =
         threshold >= 10 && threshold <= 99 ? threshold : 30;
 
       if (scrollPercentage > thresholdValue / 100) {
-        // Show when scrolled past configured threshold
+        // Show when scrolled past configured threshold.
         scrollToTopButton.classList.add("visible");
       } else {
         scrollToTopButton.classList.remove("visible");
       }
     };
 
-    // Add throttled scroll event listener (16ms ≈ 60fps)
+    // Add throttled scroll event listener (16ms ≈ 60fps).
     const throttledScrollHandler = throttle(toggleScrollToTopButton, 16);
     window.addEventListener("scroll", throttledScrollHandler);
 
-    // Initial check on page load
+    // Initial check on page load.
     toggleScrollToTopButton();
 
-    // Handle theme changes by applying appropriate styles
+    // Handle theme changes by applying appropriate styles.
     const updateThemeStyles = () => {
       const isDarkTheme =
         document.documentElement.classList.contains("theme-dark");
@@ -285,22 +294,22 @@ function initScrollToTop(config = {}) {
       }
     };
 
-    // Initial theme check
+    // Initial theme check.
     updateThemeStyles();
 
-    // Monitor theme changes
+    // Monitor theme changes.
     const observer = new MutationObserver(updateThemeStyles);
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ["class"],
     });
 
-    // Function to check zoom level and hide the button accordingly
+    // Function to check zoom level and hide the button accordingly.
     function checkZoomLevel() {
-      // Calculate actual browser zoom level
+      // Calculate actual browser zoom level.
       const zoomLevel = Math.round((window.outerWidth / window.innerWidth) * 100) / 100;
 
-      // If zoom level is above 300%, hide the button
+      // If zoom level is above 300%, hide the button.
       if (zoomLevel > 3) {
         scrollToTopButton.style.display = "none";
       } else {
@@ -308,21 +317,51 @@ function initScrollToTop(config = {}) {
       }
     }
 
-    // Run the check whenever the window is resized or zoomed
+    // Run the check whenever the window is resized or zoomed.
     window.addEventListener("resize", checkZoomLevel);
 
-    // Also run it on initial load to account for the page's zoom state
+    // Also run it on initial load to account for the page's zoom state.
     checkZoomLevel();
 
-    // Cleanup function to remove event listeners when navigating between pages
-    return () => {
+    // Cleanup function to remove event listeners when navigating between pages.
+    cleanup = () => {
       window.removeEventListener("scroll", throttledScrollHandler);
       window.removeEventListener("resize", checkZoomLevel);
       observer.disconnect();
-      if (scrollToTopButton.parentNode) {
+      if (scrollToTopButton && scrollToTopButton.parentNode) {
         scrollToTopButton.parentNode.removeChild(scrollToTopButton);
       }
+      // Remove the style element if it exists.
+      const existingStyle = document.getElementById("scroll-to-top-styles");
+      if (existingStyle) {
+        existingStyle.remove();
+      }
     };
+
+    return cleanup;
+  };
+
+  // Initialize on page load (works for both initial load and view transitions).
+  const handlePageLoad = () => {
+    // Small delay to ensure DOM is ready.
+    setTimeout(initButton, 10);
+  };
+
+  // Handle initial page load and Astro view transitions.
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', handlePageLoad);
+  } else {
+    handlePageLoad();
+  }
+
+  // Handle Astro view transitions.
+  document.addEventListener('astro:page-load', handlePageLoad);
+
+  // Cleanup before navigation.
+  document.addEventListener('astro:before-preparation', () => {
+    if (cleanup) {
+      cleanup();
+    }
   });
 }
 
