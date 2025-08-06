@@ -8,6 +8,7 @@ export default defineConfig({
   base: "/starlight-scroll-to-top",
   integrations: [
     starlight({
+      title: 'Starlight Scroll to Top',      
       editLink: {
         baseUrl: 'https://github.com/frostybee/starlight-scroll-to-top/edit/main/docs/',
       },
@@ -43,8 +44,7 @@ export default defineConfig({
       ],
       social: [
         { href: 'https://github.com/frostybee/starlight-scroll-to-top', icon: 'github', label: 'GitHub' },
-      ],
-      title: 'Starlight Scroll to Top',
+      ],      
     }),
   ],
 })

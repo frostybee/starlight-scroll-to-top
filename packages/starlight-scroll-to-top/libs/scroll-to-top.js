@@ -25,10 +25,33 @@ function initScrollToTop(config = {}) {
   // Store cleanup function globally to handle view transitions
   let cleanup = null;
 
+  // Check if current page is homepage using DOM content detection
+  const isHomepage = () => {
+    // Check for common homepage/hero elements in Starlight
+    return document.querySelector('.hero') || 
+           document.querySelector('.sl-hero') ||
+           document.querySelector('[data-page="index"]') ||
+           document.querySelector('.landing-page') ||
+           document.querySelector('.homepage') ||
+           document.querySelector('[data-starlight-homepage]') ||
+           document.querySelector('.site-hero') ||
+           // Check if body has homepage-related classes
+           document.body.classList.contains('homepage') ||
+           document.body.classList.contains('landing') ||
+           // Check for Starlight's main content wrapper with hero content
+           (document.querySelector('main.sl-main') && 
+            document.querySelector('main.sl-main .hero, main.sl-main .sl-hero'));
+  };
+
   const initButton = () => {
     // Clean up existing button if it exists. 
     if (cleanup) {
       cleanup();
+    }
+
+    // Skip button creation if this is the homepage
+    if (isHomepage()) {
+      return;
     }
     // Create the button element.
     const scrollToTopButton = document.createElement("button");
