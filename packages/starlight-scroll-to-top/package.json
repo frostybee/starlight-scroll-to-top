@@ -35,7 +35,7 @@
   },  
   "publishConfig": {
     "access": "public",
-    "provenance": true
+    "provenance": false
   },
   "sideEffects": false,
   "homepage": "https://github.com/frostybee/starlight-scroll-to-top",
