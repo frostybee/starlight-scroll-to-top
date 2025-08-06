@@ -8,12 +8,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 
 export default function starlightScrollToTopIntegration(options: ScrollToTopOptions = {}): AstroIntegration {
-  // Set default options
+  // Set default options.
   const config = {
     position: "right",
     tooltipText: "Scroll to top",
     smoothScroll: true,
-    threshold: 30, // Default: show when scrolled 30% down
+    threshold: 30, // Default: show when scrolled 30% down.
     svgPath: "M18 15l-6-6-6 6",
     svgStrokeWidth: "2",
     borderRadius: "15",
@@ -26,11 +26,11 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
     hooks: {
       'astro:config:setup': async ({ injectScript }) => {
 
-        // Synchronously read the file content         
+        // Read the scroll-to-top JavaScript file
         const fileContent = readFileSync(join(__dirname, 'scroll-to-top.js'), 'utf-8');
 
-        // Inject client-side script that will handle scroll behavior        
-        // Pass the configuration as stringified JSON
+        // Inject client-side script that will be processed and minified by Astro/Vite
+        // Using 'page' mode so Vite will automatically minify and optimize the script
         injectScript('page', `
             ${fileContent};
             initScrollToTop(${JSON.stringify(config)});          
