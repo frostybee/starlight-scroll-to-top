@@ -19,15 +19,17 @@ function initScrollToTop(config = {}) {
     svgPath = "M18 15l-6-6-6 6",
     svgStrokeWidth = "2",
     borderRadius = "15",
-    showTooltip = false,    
+    showTooltip = false,
+    showProgressRing = false,
+    progressRingColor = "yellow",    
   } = config;
 
-  // Store cleanup function globally to handle view transitions
+  // Store cleanup function globally to handle view transitions.
   let cleanup = null;
 
-  // Check if current page is homepage using DOM content detection
+  // Check if current page is homepage using DOM content detection.
   const isHomepage = () => {
-    // Check for common homepage/hero elements in Starlight
+    // Check for common homepage/hero elements in Starlight.
     return document.querySelector('.hero') || 
            document.querySelector('.sl-hero') ||
            document.querySelector('[data-page="index"]') ||
@@ -35,10 +37,10 @@ function initScrollToTop(config = {}) {
            document.querySelector('.homepage') ||
            document.querySelector('[data-starlight-homepage]') ||
            document.querySelector('.site-hero') ||
-           // Check if body has homepage-related classes
+           // Check if body has homepage-related classes.
            document.body.classList.contains('homepage') ||
            document.body.classList.contains('landing') ||
-           // Check for Starlight's main content wrapper with hero content
+           // Check for Starlight's main content wrapper with hero content.
            (document.querySelector('main.sl-main') && 
             document.querySelector('main.sl-main .hero, main.sl-main .sl-hero'));
   };
@@ -49,7 +51,7 @@ function initScrollToTop(config = {}) {
       cleanup();
     }
 
-    // Skip button creation if this is the homepage
+    // Skip button creation if this is the homepage.  
     if (isHomepage()) {
       return;
     }
@@ -62,8 +64,30 @@ function initScrollToTop(config = {}) {
     scrollToTopButton.setAttribute('tabindex', '0');
     let isKeyboard = false;
 
-    // Add button with configurable SVG icon.
+    // Add button with configurable SVG icon and optional progress ring.
     scrollToTopButton.innerHTML = `
+      ${showProgressRing ? `
+      <svg class="scroll-progress-ring" 
+           width="47" 
+           height="47" 
+           viewBox="0 0 47 47"
+           style="position: absolute; top: 0; left: 0;">
+        <!-- Background circle -->
+        <circle cx="23.5" cy="23.5" r="22" 
+                fill="none" 
+                stroke="${progressRingColor}" 
+                stroke-width="3" 
+                opacity="0.2" />
+        <!-- Progress circle -->
+        <circle cx="23.5" cy="23.5" r="22" 
+                fill="none" 
+                stroke="${progressRingColor}" 
+                stroke-width="3" 
+                stroke-linecap="round"
+                class="scroll-progress-circle"
+                style="transform: rotate(-90deg); transform-origin: center;" />
+      </svg>
+      ` : ''}
       <svg xmlns="http://www.w3.org/2000/svg" 
            width="35" 
            height="35" 
@@ -72,7 +96,8 @@ function initScrollToTop(config = {}) {
            stroke="currentColor" 
            stroke-width="${svgStrokeWidth}" 
            stroke-linecap="round" 
-           stroke-linejoin="round">
+           stroke-linejoin="round"
+           style="position: relative; z-index: 1;">
         <path d="${svgPath}"/>
       </svg>
     `;
@@ -140,10 +165,10 @@ function initScrollToTop(config = {}) {
       }
 
       .scroll-to-top-button:hover {
-        background-color: var(--sl-color-accent-low, rgba(var(--sl-color-accent-raw, 13, 110, 253), 0.15)); 
+        background-color: var(--sl-color-gray-5); 
         box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 4px 8px 0 rgba(0,0,0,0.2);
         color: var(--sl-color-accent);
-        border-color: var(--sl-color-accent-low, rgba(var(--sl-color-accent-raw, 13, 110, 253), 0.3));     
+        border-color: var(--sl-color-accent);     
       }
       
       .scroll-to-top-button.keyboard-focus {
@@ -170,6 +195,17 @@ function initScrollToTop(config = {}) {
       .scroll-to-top-btn-tooltip.visible {
         opacity: 1;
         visibility: visible;        
+      }
+
+      /* Progress ring styles */
+      .scroll-progress-ring {
+        pointer-events: none;
+      }
+      
+      .scroll-progress-circle {
+        stroke-dasharray: 138.23; /* 2 * π * r = 2 * π * 22 ≈ 138.23 */
+        stroke-dashoffset: 138.23;
+        transition: stroke-dashoffset 0.1s ease;
       }
     `;
     document.head.appendChild(customStyle);
@@ -208,7 +244,7 @@ function initScrollToTop(config = {}) {
         top: 0,
         behavior: smoothScroll ? "smooth" : "auto",
       });
-      // Explicitly reset styles after scroll      
+      // Explicitly reset styles after scroll.      
       scrollToTopButton.classList.remove("active");
     };
 
@@ -219,7 +255,7 @@ function initScrollToTop(config = {}) {
         isKeyboard = true;
       }
     });
-    // Detect mouse input
+    // Detect mouse input.
     scrollToTopButton.addEventListener("mousedown", () => {
       isKeyboard = false;
     });
@@ -286,6 +322,22 @@ function initScrollToTop(config = {}) {
 
       // Calculate how far down the page the user has scrolled.
       const scrollPercentage = scrollPosition / (pageHeight - viewportHeight);
+
+      // Update progress ring if enabled
+      if (showProgressRing) {
+        const progressCircle = scrollToTopButton.querySelector('.scroll-progress-circle');
+        if (progressCircle) {
+          // Calculate progress as percentage (0-100)
+          let progress = scrollPercentage * 100;
+          if (progress >= 99.5) progress = 100;
+          if (progress < 0) progress = 0;
+          
+          // Calculate stroke-dashoffset (full circumference - progress)
+          const circumference = 138.23; // 2 * π * 22
+          const offset = circumference - (progress / 100) * circumference;
+          progressCircle.style.strokeDashoffset = offset.toString();
+        }
+      }
 
       // Ensure threshold is between 10 and 99.
       const thresholdValue =

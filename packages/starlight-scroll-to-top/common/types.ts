@@ -47,5 +47,17 @@ export default interface ScrollToTopOptions {
    * The radius of the button corners. 50% for circle, 0% for square
    * @default "15"
    */
-  borderRadius?: string;   
+  borderRadius?: string;
+
+  /**
+   * Whether to show a circular progress ring around the button
+   * @default false
+   */
+  showProgressRing?: boolean;
+
+  /**
+   * Color of the scroll progress ring (CSS color value)
+   * @default "yellow"
+   */
+  progressRingColor?: string;   
 }

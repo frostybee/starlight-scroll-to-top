@@ -75,6 +75,16 @@ The Starlight scroll-to-top plugin **accepts an object** with the following **op
 - **Default**: `'15'`
 - **Description**: Sets the border radius of the button, controlling the roundness of its corners. Use a percentage value (e.g., `'50'` for a circular button, `'0'` for a square button) or a valid CSS length value (e.g., `'15px'`).
 
+### `showProgressRing`
+- **Type**: `boolean`
+- **Default**: `false`
+- **Description**: Determines whether to display a circular progress ring around the button that indicates scroll progress. When enabled, the ring fills as the user scrolls down the page, providing visual feedback of reading progress.
+
+### `progressRingColor`
+- **Type**: `string`
+- **Default**: `'yellow'`
+- **Description**: Specifies the color of the scroll progress ring. Accepts any valid CSS color value including hex codes (e.g., `'#ff6b6b'`), RGB/RGBA values (e.g., `'rgba(255, 107, 107, 0.8)'`), CSS color names (e.g., `'orange'`), or CSS custom properties (e.g., `'var(--my-custom-color)'`). The default yellow color provides good contrast against the button's accent color background.
+
 ## Example Configuration
 
 ```javascript title="astro.config.mjs"
@@ -92,6 +102,8 @@ export default defineConfig({
             svgPath: 'M18 15l-6-6-6 6',
             svgStrokeWidth: 1,
             borderRadius: '50',
+            showProgressRing: true,
+            progressRingColor: '#ff6b6b',
        })
        ]
      })
@@ -99,5 +111,5 @@ export default defineConfig({
  });
 ```
 :::note
-The above configuration places the button on the left, shows a tooltip with "Back to top" on hover, enables smooth scrolling, makes the button visible after scrolling 20% of the page, and customizes the SVG icon and button appearance.
+The above configuration places the button on the left, shows a tooltip with "Back to top" on hover, enables smooth scrolling, makes the button visible after scrolling 20% of the page, enables the scroll progress ring with a custom red color (#ff6b6b), and customizes the SVG icon and button appearance.
 :::

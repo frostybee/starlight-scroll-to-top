@@ -17,7 +17,9 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
     svgPath: "M18 15l-6-6-6 6",
     svgStrokeWidth: "2",
     borderRadius: "15",
-    showTooltip: false,    
+    showTooltip: false,
+    showProgressRing: false,
+    progressRingColor: "yellow",    
     ...options
   };
 

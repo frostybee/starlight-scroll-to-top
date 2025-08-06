@@ -8,13 +8,15 @@
 
 The button appears when users scroll down the page, providing an easy way to navigate back to the top of long documentation pages.
 
-- 🚀 Smooth scrolling option for a better user experience
-- 🌓 Light and dark theme support
-- ⚙️ Highly configurable appearance and behavior
-- 🎨 Uses Starlight's `--sl-` prefixed CSS variables for consistent styling
-- 📱 Responsive design works on all devices
-- 🔧 Configurable button position (left, center, or right)
-- 🖌️ Customizable SVG icon
+- Smooth scrolling option for a better user experience,
+- Light and dark theme support,
+- Highly configurable appearance and behavior,
+- Uses Starlight's `--sl-` prefixed CSS variables for consistent styling,
+- Responsive design works on all devices,
+- Configurable button position (left, center, or right),
+- Customizable SVG icon,
+- Optional scroll progress ring indicator,
+- Customizable progress ring colors.
 
 ## Installation
 
@@ -70,7 +72,11 @@ export default defineConfig({
           // Customize the SVG icon
           svgPath: 'M25 42 12 29 42 29Z',    
           svgStrokeWidth: 1, 
-          borderRadius: '50',      
+          borderRadius: '50',
+          // Show scroll progress ring
+          showProgressRing: true,
+          // Customize progress ring color
+          progressRingColor: '#ff6b6b',
         })
       ]
     })
