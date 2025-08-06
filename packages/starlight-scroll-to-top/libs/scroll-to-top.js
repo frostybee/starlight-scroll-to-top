@@ -260,9 +260,9 @@ function initScrollToTop(config = {}) {
       // Calculate how far down the page the user has scrolled
       const scrollPercentage = scrollPosition / (pageHeight - viewportHeight);
 
-      // Ensure threshold is between 1 and 99
+      // Ensure threshold is between 10 and 99
       const thresholdValue =
-        threshold >= 1 && threshold <= 99 ? threshold : 30;
+        threshold >= 10 && threshold <= 99 ? threshold : 30;
 
       if (scrollPercentage > thresholdValue / 100) {
         // Show when scrolled past configured threshold
