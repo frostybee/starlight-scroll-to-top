@@ -8,12 +8,7 @@ export default defineConfig({
   base: "/starlight-scroll-to-top",
   integrations: [
     starlight({
-<<<<<<< HEAD
-      title: 'Starlight Scroll to Top',
-      favicon: '/images/starlightrocket.svg',
-=======
       title: 'Starlight Scroll to Top',      
->>>>>>> e0f675acc7fc394903ddf866fb5404bba1d07fee
       editLink: {
         baseUrl: 'https://github.com/frostybee/starlight-scroll-to-top/edit/main/docs/',
       },
@@ -49,12 +44,7 @@ export default defineConfig({
       ],
       social: [
         { href: 'https://github.com/frostybee/starlight-scroll-to-top', icon: 'github', label: 'GitHub' },
-<<<<<<< HEAD
-      ],
-      
-=======
       ],      
->>>>>>> e0f675acc7fc394903ddf866fb5404bba1d07fee
     }),
   ],
 })
