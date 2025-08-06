@@ -27,6 +27,9 @@ function initScrollToTop(config = {}) {
     const scrollToTopButton = document.createElement("button");
     scrollToTopButton.id = "scroll-to-top-button";
     scrollToTopButton.ariaLabel = tooltipText;
+    scrollToTopButton.setAttribute('aria-describedby', showTooltip ? 'scroll-to-top-tooltip' : '');
+    scrollToTopButton.setAttribute('role', 'button');
+    scrollToTopButton.setAttribute('tabindex', '0');
     let isKeyboard = false;
 
     // Add button with configurable SVG icon
@@ -108,9 +111,6 @@ function initScrollToTop(config = {}) {
         opacity: 1;
         visibility: visible;        
       }
-      :root["theme-dark"] .scroll-to-top-button {
-         border: 1px solid yellow;
-       }
 
       .scroll-to-top-button:hover {
         background-color: var(--sl-color-accent); 
@@ -154,7 +154,6 @@ function initScrollToTop(config = {}) {
     if (showTooltip) {
       tooltip.classList.add("scroll-to-top-btn-tooltip");
       tooltip.appendChild(arrow);
-      scrollToTopButton.appendChild(tooltip);
       scrollToTopButton.appendChild(tooltip);
     }
     
@@ -238,6 +237,20 @@ function initScrollToTop(config = {}) {
       doScrollToTop();
     });
 
+    // Throttle function for performance optimization
+    function throttle(func, limit) {
+      let inThrottle;
+      return function() {
+        const args = arguments;
+        const context = this;
+        if (!inThrottle) {
+          func.apply(context, args);
+          inThrottle = true;
+          setTimeout(() => inThrottle = false, limit);
+        }
+      }
+    }
+
     // Show/hide the button based on scroll position
     const toggleScrollToTopButton = () => {
       const scrollPosition = window.scrollY;
@@ -247,9 +260,9 @@ function initScrollToTop(config = {}) {
       // Calculate how far down the page the user has scrolled
       const scrollPercentage = scrollPosition / (pageHeight - viewportHeight);
 
-      // Ensure threshold is between 0 and 99
+      // Ensure threshold is between 1 and 99
       const thresholdValue =
-        threshold > 0 && threshold >= 10 && threshold <= 99 ? threshold : 30;
+        threshold >= 1 && threshold <= 99 ? threshold : 30;
 
       if (scrollPercentage > thresholdValue / 100) {
         // Show when scrolled past configured threshold
@@ -259,8 +272,9 @@ function initScrollToTop(config = {}) {
       }
     };
 
-    // Add scroll event listener
-    window.addEventListener("scroll", toggleScrollToTopButton);
+    // Add throttled scroll event listener (16ms ≈ 60fps)
+    const throttledScrollHandler = throttle(toggleScrollToTopButton, 16);
+    window.addEventListener("scroll", throttledScrollHandler);
 
     // Initial check on page load
     toggleScrollToTopButton();
@@ -270,10 +284,8 @@ function initScrollToTop(config = {}) {
       const isDarkTheme =
         document.documentElement.classList.contains("theme-dark");
       if (isDarkTheme) {
-        // scrollToTopButton.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.4)";
         tooltip.style.backgroundColor = "var(--sl-color-gray-6)";
       } else {
-        // scrollToTopButton.style.boxShadow = "0 2px 5px rgba(0, 0, 0, 0.2)";
         tooltip.style.backgroundColor = "var(--sl-color-gray-5)";
       }
     };
@@ -290,15 +302,13 @@ function initScrollToTop(config = {}) {
 
     // Function to check zoom level and hide the button accordingly
     function checkZoomLevel() {
-      const zoomLevel = window.devicePixelRatio; // This gives an approximation of the zoom level
+      // Calculate actual browser zoom level
+      const zoomLevel = Math.round((window.outerWidth / window.innerWidth) * 100) / 100;
 
-      // If zoom level is above a certain threshold (e.g., 1.5), hide the button
+      // If zoom level is above 300%, hide the button
       if (zoomLevel > 3) {
-        // Hide button if zoom is above 300%
-        // scrollToTopButton.style.visibility = "hidden";
-        scrollToTopButton.style.display = "none"; // Hide button if zoom is above 300%
+        scrollToTopButton.style.display = "none";
       } else {
-        // scrollToTopButton.style.visibility = "visible";
         scrollToTopButton.style.display = "flex";
       }
     }
@@ -311,7 +321,8 @@ function initScrollToTop(config = {}) {
 
     // Cleanup function to remove event listeners when navigating between pages
     return () => {
-      window.removeEventListener("scroll", toggleScrollToTopButton);
+      window.removeEventListener("scroll", throttledScrollHandler);
+      window.removeEventListener("resize", checkZoomLevel);
       observer.disconnect();
       if (scrollToTopButton.parentNode) {
         scrollToTopButton.parentNode.removeChild(scrollToTopButton);
