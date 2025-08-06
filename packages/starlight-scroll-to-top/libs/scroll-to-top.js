@@ -81,7 +81,8 @@ function initScrollToTop(config = {}) {
             : "left: 50%; transform: translateX(-50%);"
       }
       border-radius: ${borderRadius}%;     
-      background-color: var(--sl-color-bg-sidebar);       
+      background-color: var(--sl-color-accent-low, rgba(var(--sl-color-accent-raw, 13, 110, 253), 0.15));       
+      color: var(--sl-color-accent);
       cursor: pointer;
       display: flex;
       align-items: center;      
@@ -90,23 +91,17 @@ function initScrollToTop(config = {}) {
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;      
       z-index: 100;            
-      border: none;
+      border: 1px solid var(--sl-color-accent, rgba(var(--sl-color-accent-raw, 13, 110, 253), 0.3));
       transform-origin: center;
       -webkit-tap-highlight-color: transparent; /* Disable mobile tap highlight */
       touch-action: manipulation; /* Prevent double-tap zoom */
-      
+      box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 4px 8px 0 rgba(0,0,0,0.2);
     }
       .scroll-to-top-button:active {
         background-color: var(--sl-color-accent-dark); 
         color: var(--sl-text-white);        
         transition: background-color 0.1s ease, transform 0.1s ease; 
      }
-        /* Ensure default state after interaction */
-       .scroll-to-top-button:not(:hover):not(:active) {         
-        background-color: var(--sl-color-bg-sidebar);  
-            border: 1px solid var(--sl-color-gray-5);  
-        box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 4px 8px 0 rgba(0,0,0,0.2);
-       }
       .scroll-to-top-button.visible {
         opacity: 1;
         visibility: visible;        
@@ -116,7 +111,7 @@ function initScrollToTop(config = {}) {
         background-color: var(--sl-color-accent); 
         box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 4px 8px 0 rgba(0,0,0,0.2);
         color: white;
-        border: none;     
+        border-color: var(--sl-color-accent);     
       }
       
       .scroll-to-top-button.keyboard-focus {
