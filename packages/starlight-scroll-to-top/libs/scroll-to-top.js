@@ -113,8 +113,8 @@ function initScrollToTop(config = {}) {
             : "left: 50%; transform: translateX(-50%);"
       }
       border-radius: ${borderRadius}%;     
-      background-color: var(--sl-color-accent-low, rgba(var(--sl-color-accent-raw, 13, 110, 253), 0.15));       
-      color: var(--sl-color-accent);
+      background-color: var(--sl-color-accent);       
+      color: white;
       cursor: pointer;
       display: flex;
       align-items: center;      
@@ -123,7 +123,7 @@ function initScrollToTop(config = {}) {
       visibility: hidden;
       transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;      
       z-index: 100;            
-      border: 1px solid var(--sl-color-accent, rgba(var(--sl-color-accent-raw, 13, 110, 253), 0.3));
+      border: 1px solid var(--sl-color-accent);
       transform-origin: center;
       -webkit-tap-highlight-color: transparent; /* Disable mobile tap highlight */
       touch-action: manipulation; /* Prevent double-tap zoom */
@@ -140,10 +140,10 @@ function initScrollToTop(config = {}) {
       }
 
       .scroll-to-top-button:hover {
-        background-color: var(--sl-color-accent); 
+        background-color: var(--sl-color-accent-low, rgba(var(--sl-color-accent-raw, 13, 110, 253), 0.15)); 
         box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 4px 8px 0 rgba(0,0,0,0.2);
-        color: white;
-        border-color: var(--sl-color-accent);     
+        color: var(--sl-color-accent);
+        border-color: var(--sl-color-accent-low, rgba(var(--sl-color-accent-raw, 13, 110, 253), 0.3));     
       }
       
       .scroll-to-top-button.keyboard-focus {
