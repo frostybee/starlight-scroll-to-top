@@ -1,6 +1,6 @@
 import type { StarlightPlugin } from '@astrojs/starlight/types'
-import type ScrollToTopOptions from "./common/types.ts";
-import starlightScrollToTopIntegration from "./libs/integration.ts";
+import type ScrollToTopOptions from "./common/types.js";
+import starlightScrollToTopIntegration from "./libs/integration.js";
 
 
 export default function starlightScrollToTop(userConfig: ScrollToTopOptions = {}): StarlightPlugin {

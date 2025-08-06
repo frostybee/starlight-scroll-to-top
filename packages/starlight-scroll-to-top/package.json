@@ -1,6 +1,6 @@
 {
   "name": "starlight-scroll-to-top",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "license": "MIT",
   "description": "Add a scroll to top button to your documentation website.",
   "author": "frostybee",
@@ -15,12 +15,19 @@
   "exports": {
     ".": "./index.ts"
   },
+  "files": [
+    "index.ts",
+    "libs/",
+    "common/",
+    "README.md",
+    "CHANGELOG.md"
+  ],
   "devDependencies": {
-    "@astrojs/starlight": "^0.34.1",
-    "astro": "^5.7.5"
+    "@astrojs/starlight": "^0.35.2",
+    "astro": "^5.12.8"
   },
   "peerDependencies": {
-    "@astrojs/starlight": ">=0.34"
+    "@astrojs/starlight": ">=0.35"
   },
   "packageManager": "pnpm@10.10.0",
   "engines": {
