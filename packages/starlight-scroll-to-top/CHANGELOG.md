@@ -1,5 +1,11 @@
 # starlight-scroll-to-top
 
+## 0.2.1
+
+### Patch Changes
+
+- [`212acc5`](https://github.com/frostybee/starlight-scroll-to-top/commit/212acc59d020cef31fa2f4e4609fe88b0cbdae91) Thanks [@frostybee](https://github.com/frostybee)! - Fix publishing issue
+
 ## 0.2.0
 
 ### Minor Changes
