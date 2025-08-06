@@ -1,5 +1,11 @@
 # starlight-scroll-to-top
 
+## 0.3.0
+
+### Minor Changes
+
+- [`b07e25f`](https://github.com/frostybee/starlight-scroll-to-top/commit/b07e25f49bf0fd9eba2a0cc0edf8c57d87e32584) Thanks [@frostybee](https://github.com/frostybee)! - Add Astro view transitions support, scroll progress indicator, homepage detection, improved styling, and performance optimizationsAdd Astro view transitions support, scroll progress indicator, homepage detection, improved styling, and performance optimizations
+
 ## 0.2.1
 
 ### Patch Changes
