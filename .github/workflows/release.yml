@@ -1,15 +1,14 @@
 name: release
 
 on:
-  pull_request:
-    types: [opened, synchronize]
+  push:
     branches:
       - main
 
 jobs:
   changeset:
     name: Changeset
-    if: ${{ github.repository_owner == 'frostybee' && startsWith(github.head_ref, 'changeset-release/') }}
+    if: ${{ github.repository_owner == 'frostybee' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -35,8 +34,13 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Publish to npm
-        run: pnpm changeset publish --access public
+      - name: Create Release Pull Request or Publish
+        uses: changesets/action@v1
+        with:
+          version: pnpm changeset version
+          publish: pnpm changeset publish --access public
+          commit: 'ci: release'
+          title: 'ci: release'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
