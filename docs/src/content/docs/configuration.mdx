@@ -41,9 +41,16 @@ The Starlight scroll-to-top plugin **accepts an object** with the following **op
 - **Description**: Specifies the position of the scroll-to-top button on the page. Choose `'left'` to place the button on the left side, `'right'` for the right side, or `'center'` to place the button in middle of the page.
 
 ### `tooltipText`
-- **Type**: `string`
+- **Type**: `string | object` 
 - **Default**: `'Scroll to top'`
-- **Description**: Defines the text displayed in the tooltip when hovering over the button. Customize this to provide a user-friendly message.
+- **Description**: Defines the text displayed in the tooltip when hovering over the button. Customize this to provide a user-friendly message. If you want to support I18N, please pass in an object like this:
+
+  ```json
+  {
+      'en': 'Scroll to top',
+      'zh': '回到顶部'
+  }
+  ```
 
 ### `showTooltip`
 - **Type**: `boolean`
