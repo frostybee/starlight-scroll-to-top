@@ -13,7 +13,6 @@
 function initScrollToTop(config = {}) {
   const {
     position = "right",
-    tooltipText = "Scroll to top",
     smoothScroll = true,
     threshold = 30, // Default: show when scrolled 30% down
     svgPath = "M18 15l-6-6-6 6",
@@ -23,6 +22,12 @@ function initScrollToTop(config = {}) {
     showProgressRing = false,
     progressRingColor = "yellow",    
   } = config;
+
+  let tooltipText = typeof config.tooltipText === 'string' ? config.tooltipText : "Scroll to top";
+  const langCode = document.documentElement.lang;
+  if (langCode != null && typeof config.tooltipText === 'object') {
+    tooltipText = config.tooltipText[langCode] ?? tooltipText;
+  }
 
   // Store cleanup function globally to handle view transitions.
   let cleanup = null;
