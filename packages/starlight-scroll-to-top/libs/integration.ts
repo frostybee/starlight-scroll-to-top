@@ -19,7 +19,8 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
     borderRadius: "15",
     showTooltip: false,
     showProgressRing: false,
-    progressRingColor: "yellow",    
+    progressRingColor: "yellow",
+    showOnHomepage: false,    
     ...options
   };
 

@@ -43,14 +43,47 @@ The Starlight scroll-to-top plugin **accepts an object** with the following **op
 ### `tooltipText`
 - **Type**: `string | object` 
 - **Default**: `'Scroll to top'`
-- **Description**: Defines the text displayed in the tooltip when hovering over the button. Customize this to provide a user-friendly message. If you want to support I18N, please pass in an object like this:
+- **Description**: Defines the text displayed in the tooltip when hovering over the button. Can be a simple string for single language support, or an object for internationalization (I18N) support.
 
-  ```json
-  {
-      'en': 'Scroll to top',
-      'zh': '回到顶部'
-  }
-  ```
+#### Single Language
+```javascript
+tooltipText: 'Back to top'
+```
+
+#### Internationalization (I18N)
+For multi-language support, pass an object with language codes as keys. The plugin automatically detects the document's language from `<html lang="...">` and uses the appropriate translation:
+
+```javascript
+tooltipText: {
+  'en': 'Scroll to top',
+  'es': 'Ir arriba',
+  'fr': 'Retour en haut',
+  'de': 'Nach oben scrollen',
+  'pt': 'Voltar ao topo',
+  'ja': 'トップへ戻る',
+  'zh': '回到顶部'
+}
+```
+
+#### Language Variants Support
+The plugin supports language variants (like `pt-BR`, `en-US`) with intelligent fallback:
+
+```javascript
+tooltipText: {
+  'en': 'Scroll to top',
+  'pt': 'Voltar ao topo',           // Base Portuguese (fallback for both variants)
+  'pt-br': 'Voltar ao topo',       // Brazilian Portuguese (optional override)
+  'pt-pt': 'Voltar ao início'      // European Portuguese (optional override)
+}
+```
+
+**Fallback Strategy:**
+1. **Exact match**: `pt-BR` → looks for `'pt-br'`
+2. **Base language**: If not found → looks for `'pt'` 
+3. **English fallback**: If no Portuguese → looks for `'en'`
+4. **Default**: Finally uses `'Scroll to top'`
+
+This means you can provide just the base language (e.g., `'pt'`) to cover all variants, or specify regional differences when needed.
 
 ### `showTooltip`
 - **Type**: `boolean`
@@ -92,10 +125,15 @@ The Starlight scroll-to-top plugin **accepts an object** with the following **op
 - **Default**: `'yellow'`
 - **Description**: Specifies the color of the scroll progress ring. Accepts any valid CSS color value including hex codes (e.g., `'#ff6b6b'`), RGB/RGBA values (e.g., `'rgba(255, 107, 107, 0.8)'`), CSS color names (e.g., `'orange'`), or CSS custom properties (e.g., `'var(--my-custom-color)'`). The default yellow color provides good contrast against the button's accent color background.
 
-## Example Configuration
+### `showOnHomepage`
+- **Type**: `boolean`
+- **Default**: `false`
+- **Description**: Controls whether the scroll-to-top button appears on the homepage or landing pages. When set to `false` (default), the button will be hidden on pages containing hero sections, landing page elements, or homepage-specific content. Set to `true` to show the button on all pages including the homepage.
 
+## Example Configurations
+
+### Basic Configuration
 ```javascript title="astro.config.mjs"
-
 export default defineConfig({
    integrations: [
      starlight({
@@ -111,12 +149,50 @@ export default defineConfig({
             borderRadius: '50',
             showProgressRing: true,
             progressRingColor: '#ff6b6b',
+            showOnHomepage: false,  // Hide on homepage (default)
        })
        ]
      })
    ]
  });
 ```
+
+### Multi-language Configuration
+Perfect for international documentation sites with Starlight's built-in I18N support:
+
+```javascript title="astro.config.mjs"
+export default defineConfig({
+   integrations: [
+     starlight({
+       plugins: [
+        starlightScrollToTop({ 
+            position: 'right',
+            tooltipText: {
+              'en': 'Scroll to top',
+              'es': 'Ir arriba', 
+              'fr': 'Retour en haut',
+              'de': 'Nach oben scrollen',
+              'pt': 'Voltar ao topo',        // Covers pt-BR and pt-PT
+              'pt-br': 'Voltar ao topo',    // Brazilian Portuguese override
+              'pt-pt': 'Voltar ao início',  // European Portuguese override
+              'ja': 'トップへ戻る',
+              'ko': '맨 위로',
+              'zh': '回到顶部',
+              'ar': 'العودة إلى الأعلى'
+            },
+            showTooltip: true,
+            smoothScroll: true,
+            threshold: 25,
+            showProgressRing: true,
+            progressRingColor: 'var(--sl-color-accent)',
+            showOnHomepage: true,   // Show on all pages including homepage
+       })
+       ]
+     })
+   ]
+ });
+```
+
 :::note
-The above configuration places the button on the left, shows a tooltip with "Back to top" on hover, enables smooth scrolling, makes the button visible after scrolling 20% of the page, enables the scroll progress ring with a custom red color (#ff6b6b), and customizes the SVG icon and button appearance.
+The basic configuration places the button on the left with custom styling and progress ring. The multi-language configuration automatically detects the page language from Starlight and displays the appropriate tooltip text, with intelligent fallback for language variants like `pt-BR` → `pt` → `en` → default.
 :::

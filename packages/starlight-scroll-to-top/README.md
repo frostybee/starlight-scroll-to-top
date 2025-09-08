@@ -16,7 +16,9 @@ The button appears when users scroll down the page, providing an easy way to nav
 - Configurable button position (left, center, or right),
 - Customizable SVG icon,
 - Optional scroll progress ring indicator,
-- Customizable progress ring colors.
+- Customizable progress ring colors,
+- **Internationalization (I18N) support** with automatic language detection and intelligent fallback,
+- Configurable homepage visibility control.
 
 ## Installation
 
@@ -62,8 +64,14 @@ export default defineConfig({
         starlightScrollToTop({
           // Button position
           position: 'left',          
-          // Tooltip text
-          tooltipText: 'Back to top',          
+          // Tooltip text (supports I18N)
+          tooltipText: {
+            'en': 'Scroll to top',
+            'es': 'Ir arriba',
+            'fr': 'Retour en haut',
+            'pt': 'Voltar ao topo',
+            'de': 'Nach oben scrollen'
+          },          
           showTooltip: true,
           // Use smooth scrolling
           smoothScroll: true,        
@@ -77,6 +85,8 @@ export default defineConfig({
           showProgressRing: true,
           // Customize progress ring color
           progressRingColor: '#ff6b6b',
+          // Control homepage visibility
+          showOnHomepage: false,
         })
       ]
     })

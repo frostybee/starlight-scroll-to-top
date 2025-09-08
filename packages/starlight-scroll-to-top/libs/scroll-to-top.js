@@ -2,13 +2,14 @@
  * Creates and manages the scroll-to-top button
  * @param {Object} config - Configuration options
  * @param {string} config.position - Button position relative to the bottom corner of the page ('left' or 'right')
- * @param {string} config.tooltipText - Text to show in the tooltip
+ * @param {string|Object} config.tooltipText - Text to show in the tooltip. Can be a string for single language or an object with language codes as keys for I18N support
  * @param {boolean} config.smoothScroll - Whether to use smooth scrolling
  * @param {number} config.threshold - Height after page scroll to be visible (percentage)
  * @param {string} config.svgPath - The SVG icon path d attribute
  * @param {number} config.borderRadius - The radius of the button corners, 50 for circle.
  * @param {boolean} config.showTooltip - Whether to show the tooltip on hover
  * @param {boolean} config.svgStrokeWidth - The SVG icon stroke width
+ * @param {boolean} config.showOnHomepage - Whether to show the button on homepage/landing pages
  */
 function initScrollToTop(config = {}) {
   const {
@@ -20,14 +21,59 @@ function initScrollToTop(config = {}) {
     borderRadius = "15",
     showTooltip = false,
     showProgressRing = false,
-    progressRingColor = "yellow",    
+    progressRingColor = "yellow",
+    showOnHomepage = false,    
   } = config;
 
-  let tooltipText = typeof config.tooltipText === 'string' ? config.tooltipText : "Scroll to top";
-  const langCode = document.documentElement.lang;
-  if (langCode != null && typeof config.tooltipText === 'object') {
-    tooltipText = config.tooltipText[langCode] ?? tooltipText;
-  }
+  // Enhanced tooltip text resolution with hierarchical language fallback.
+  const resolveTooltipText = (tooltipConfig, documentLang) => {
+    // If it's a string, use it directly.
+    if (typeof tooltipConfig === 'string') {
+      return tooltipConfig;
+    }
+    
+    // If it's not an object, use default.
+    if (typeof tooltipConfig !== 'object' || tooltipConfig === null) {
+      return "Scroll to top";
+    }
+    
+    // Normalize language code (lowercase, handle empty/null).
+    const normalizedLang = documentLang && typeof documentLang === 'string' 
+      ? documentLang.toLowerCase().trim() 
+      : '';
+    
+    if (!normalizedLang) {
+      // No valid language code, try 'en' or use default.
+      const fallback = tooltipConfig['en'];
+      return (typeof fallback === 'string') ? fallback : "Scroll to top";
+    }
+    
+    // Try exact match first (e.g., "en-us").
+    let match = tooltipConfig[normalizedLang];
+    if (typeof match === 'string') {
+      return match;
+    }
+    
+    // Try base language if it's a variant (e.g., "en-us" → "en").
+    if (normalizedLang.includes('-')) {
+      const baseLang = normalizedLang.split('-')[0];
+      match = tooltipConfig[baseLang];
+      if (typeof match === 'string') {
+        return match;
+      }
+    }
+    
+    // Try 'en' as common fallback.
+    match = tooltipConfig['en'];
+    if (typeof match === 'string') {
+      return match;
+    }
+    
+    // Use default fallback.
+    return "Scroll to top";
+  };
+
+  const tooltipText = resolveTooltipText(config.tooltipText, document.documentElement.lang);
 
   // Store cleanup function globally to handle view transitions.
   let cleanup = null;
@@ -44,6 +90,7 @@ function initScrollToTop(config = {}) {
            document.querySelector('.site-hero') ||
            // Check if body has homepage-related classes.
            document.body.classList.contains('homepage') ||
+           document.body.classList.contains('homepage') ||
            document.body.classList.contains('landing') ||
            // Check for Starlight's main content wrapper with hero content.
            (document.querySelector('main.sl-main') && 
@@ -56,8 +103,8 @@ function initScrollToTop(config = {}) {
       cleanup();
     }
 
-    // Skip button creation if this is the homepage.  
-    if (isHomepage()) {
+    // Skip button creation if this is the homepage and showOnHomepage is false.  
+    if (isHomepage() && !showOnHomepage) {
       return;
     }
     // Create the button element.
@@ -73,7 +120,7 @@ function initScrollToTop(config = {}) {
     scrollToTopButton.innerHTML = `
       ${showProgressRing ? `
       <svg class="scroll-progress-ring" 
-           width="47" 
+           width="47"   
            height="47" 
            viewBox="0 0 47 47"
            style="position: absolute; top: 0; left: 0;">
@@ -123,7 +170,7 @@ function initScrollToTop(config = {}) {
     height: 0;
     border-left: 6px solid transparent;
     border-right: 6px solid transparent;
-    border-top: 6px solid var(--sl-color-gray-5);
+    border-top: 6px solid var(--sl-color-gray-7);
   `;
 
     // Create the custom style element.
@@ -140,7 +187,7 @@ function initScrollToTop(config = {}) {
           ? "left: 40px;"
           : position === "right"
             ? "right: 35px;"
-            : "left: 50%; transform: translateX(-50%);"
+            : "left: 50%;"
       }
       border-radius: ${borderRadius}%;     
       background-color: var(--sl-color-accent);       
@@ -151,6 +198,7 @@ function initScrollToTop(config = {}) {
       justify-content: center;
       opacity: 0;
       visibility: hidden;
+      transform: ${position === "center" ? "translateX(-50%) scale(0)" : "scale(0)"};
       transition: opacity 0.3s ease, visibility 0.3s ease, background-color 0.3s ease, transform 0.3s ease;      
       z-index: 100;            
       border: 1px solid var(--sl-color-accent);
@@ -166,11 +214,12 @@ function initScrollToTop(config = {}) {
      }
       .scroll-to-top-button.visible {
         opacity: 1;
-        visibility: visible;        
+        visibility: visible;
+        transform: ${position === "center" ? "translateX(-50%) scale(1)" : "scale(1)"};        
       }
 
       .scroll-to-top-button:hover {
-        background-color: var(--sl-color-gray-5); 
+        background-color: var(--sl-color-accent-low); 
         box-shadow: 0 0 0 1px rgba(0,0,0,0.04),0 4px 8px 0 rgba(0,0,0,0.2);
         color: var(--sl-color-accent);
         border-color: var(--sl-color-accent);     
@@ -185,7 +234,7 @@ function initScrollToTop(config = {}) {
         position: absolute;
         ${position === "left" ? "left: -25px;" : "right: -22px;"}
         top: -47px;
-        background-color: var(--sl-color-gray-6);
+        background-color: var(--sl-color-gray-7);
         color: var(--sl-color-text);
         padding: 5px 10px;
         border-radius: 4px;
@@ -368,9 +417,13 @@ function initScrollToTop(config = {}) {
       const isDarkTheme =
         document.documentElement.classList.contains("theme-dark");
       if (isDarkTheme) {
-        tooltip.style.backgroundColor = "var(--sl-color-gray-6)";
+        tooltip.style.backgroundColor = "var(--sl-color-gray-7)";
+        tooltip.style.color = "var(--sl-color-text)";
+        arrow.style.borderTopColor = "var(--sl-color-gray-7)";
       } else {
-        tooltip.style.backgroundColor = "var(--sl-color-gray-5)";
+        tooltip.style.backgroundColor = "black";
+        tooltip.style.color = "white";
+        arrow.style.borderTopColor = "black";
       }
     };
 
