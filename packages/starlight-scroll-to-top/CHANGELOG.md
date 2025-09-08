@@ -1,5 +1,13 @@
 # starlight-scroll-to-top
 
+## 0.4.0
+
+### Minor Changes
+
+- [#16](https://github.com/frostybee/starlight-scroll-to-top/pull/16) [`dfa8aa9`](https://github.com/frostybee/starlight-scroll-to-top/commit/dfa8aa9bdefc461bb476239190d5fcc2edf29ebf) Thanks [@frostybee](https://github.com/frostybee)! - \* Added I18N support for tooltipText
+  - Added option to enable the button on Starlight's landing page, along with styling improvements
+  - Added showOnHomepage boolean option (default: false)
+
 ## 0.3.1
 
 ### Patch Changes
