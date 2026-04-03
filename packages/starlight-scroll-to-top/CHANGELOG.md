@@ -1,5 +1,11 @@
 # starlight-scroll-to-top
 
+## 1.0.1
+
+### Patch Changes
+
+- [`9534f53`](https://github.com/frostybee/starlight-scroll-to-top/commit/9534f53a679141e2d26cfddd9aa62c3714f3c05d) Thanks [@frostybee](https://github.com/frostybee)! - Fix npm publish issue by bumping past unpublishable version 1.0.0
+
 ## 1.0.0
 
 ### Major Changes
