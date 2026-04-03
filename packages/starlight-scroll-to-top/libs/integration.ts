@@ -13,7 +13,7 @@ export default function starlightScrollToTopIntegration(options: ScrollToTopOpti
     position: "right",
     tooltipText: "Scroll to top",
     smoothScroll: true,
-    threshold: 30, // Default: show when scrolled 30% down.
+    threshold: 300, // Default: show after scrolling 300px.
     svgPath: "M18 15l-6-6-6 6",
     svgStrokeWidth: "2",
     borderRadius: "15",

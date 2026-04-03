@@ -1,13 +1,13 @@
-name: release
+name: Release
+permissions: {}
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
 
 jobs:
-  changeset:
-    name: Changeset
+  release:
+    name: Release
     if: ${{ github.repository_owner == 'frostybee' }}
     runs-on: ubuntu-latest
     permissions:
@@ -15,27 +15,21 @@ jobs:
       id-token: write
       pull-requests: write
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
         with:
           fetch-depth: 0
+          persist-credentials: false
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 10.10.0
+      - uses: pnpm/action-setup@a7487c7e89a18df4991f7f222e4898a00d66ddda # v4.1.0
 
-      - name: Install Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@39370e3970a6d050c480ffad4ff0ed4d3fdee5af # v4.1.0
         with:
+          node-version: 24
           cache: pnpm
-          node-version: 20
 
-      - name: Install dependencies
-        run: pnpm install
+      - run: pnpm i
 
-      - name: Create Release Pull Request or Publish
-        uses: changesets/action@v1
+      - uses: changesets/action@e0145edc7d9d8679003495b11f87bd8ef63c0cba # v1.5.3
         with:
           version: pnpm changeset version
           publish: pnpm changeset publish --access public
@@ -43,8 +37,6 @@ jobs:
           title: 'ci: release'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Verify Package
         run: npm view starlight-scroll-to-top --registry https://registry.npmjs.org
-        

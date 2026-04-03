@@ -4,7 +4,7 @@
  * @param {string} config.position - Button position relative to the bottom corner of the page ('left' or 'right')
  * @param {string|Object} config.tooltipText - Text to show in the tooltip. Can be a string for single language or an object with language codes as keys for I18N support
  * @param {boolean} config.smoothScroll - Whether to use smooth scrolling
- * @param {number} config.threshold - Height after page scroll to be visible (percentage)
+ * @param {number} config.threshold - Scroll distance in pixels before the button becomes visible
  * @param {string} config.svgPath - The SVG icon path d attribute
  * @param {number} config.borderRadius - The radius of the button corners, 50 for circle.
  * @param {boolean} config.showTooltip - Whether to show the tooltip on hover
@@ -15,7 +15,7 @@ function initScrollToTop(config = {}) {
   const {
     position = "right",
     smoothScroll = true,
-    threshold = 30, // Default: show when scrolled 30% down
+    threshold = 300, // Default: show after scrolling 300px
     svgPath = "M18 15l-6-6-6 6",
     svgStrokeWidth = "2",
     borderRadius = "15",
@@ -393,11 +393,10 @@ function initScrollToTop(config = {}) {
         }
       }
 
-      // Ensure threshold is between 10 and 99.
-      const thresholdValue =
-        threshold >= 10 && threshold <= 99 ? threshold : 30;
+      // Ensure threshold is a positive number.
+      const thresholdValue = threshold > 0 ? threshold : 300;
 
-      if (scrollPercentage > thresholdValue / 100) {
+      if (scrollPosition > thresholdValue) {
         // Show when scrolled past configured threshold.
         scrollToTopButton.classList.add("visible");
       } else {

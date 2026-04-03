@@ -7,7 +7,8 @@
   "type": "module",
   "scripts": {
     "release": "changeset publish",
-    "version": "pnpm changeset version && pnpm i --no-frozen-lockfile"
+    "version": "pnpm changeset version && pnpm i --no-frozen-lockfile",
+    "start:docs": "pnpm  -F starlight-scroll-to-top-docs dev"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^0.5.1",
@@ -19,13 +20,13 @@
     "typescript": "^5.9.2"
   },
   "engines": {
-    "node": "^18.17.1 || ^20.3.0 || >=21.0.0"
+    "node": ">=22.12.0"
   },
   "publishConfig": {
     "access": "public",
     "provenance": true
   },
-  "packageManager": "pnpm@10.10.0",
+  "packageManager": "pnpm@10.26.1",
   "sideEffects": false,
   "homepage": "https://github.com/frostybee/starlight-scroll-to-top",
   "repository": {

@@ -28,8 +28,8 @@ export default interface ScrollToTopOptions {
   smoothScroll?: boolean;
 
   /**
-   * Height after page scroll to be visible (percentage).
-   * @default 30
+   * Scroll distance in pixels before the button becomes visible.
+   * @default 300
    */
   threshold?: number;
 

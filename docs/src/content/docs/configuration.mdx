@@ -97,8 +97,8 @@ This means you can provide just the base language (e.g., `'pt'`) to cover all va
 
 ### `threshold`
 - **Type**: `number`
-- **Default**: `30`
-- **Description**: Indicates the percentage of the total page height (not limited to the viewport) that must be scrolled before the button is shown. The value should be a number between 10 and 99. For instance, setting it to 30 means the button will appear after 30% of the full page has been scrolled.
+- **Default**: `300`
+- **Description**: The scroll distance in pixels from the top of the page before the button becomes visible. For example, setting it to `300` means the button will appear after the user has scrolled 300px down.
 
 ### `svgPath`
 - **Type**: `string`
@@ -143,7 +143,7 @@ export default defineConfig({
             tooltipText: 'Back to top',
             showTooltip: true,
             smoothScroll: true,
-            threshold: 20,
+            threshold: 300,
             svgPath: 'M18 15l-6-6-6 6',
             svgStrokeWidth: 1,
             borderRadius: '50',
@@ -182,7 +182,7 @@ export default defineConfig({
             },
             showTooltip: true,
             smoothScroll: true,
-            threshold: 25,
+            threshold: 300,
             showProgressRing: true,
             progressRingColor: 'var(--sl-color-accent)',
             showOnHomepage: true,   // Show on all pages including homepage

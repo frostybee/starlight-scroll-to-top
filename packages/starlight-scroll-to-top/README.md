@@ -75,8 +75,8 @@ export default defineConfig({
           showTooltip: true,
           // Use smooth scrolling
           smoothScroll: true,        
-          // Visibility threshold (show after scrolling 20% down)
-          threshold: 20,          
+          // Visibility threshold (show after scrolling 300px)
+          threshold: 300,          
           // Customize the SVG icon
           svgPath: 'M25 42 12 29 42 29Z',    
           svgStrokeWidth: 1, 
