@@ -1,5 +1,17 @@
 # starlight-scroll-to-top
 
+## 1.0.0
+
+### Major Changes
+
+- [`96d9709`](https://github.com/frostybee/starlight-scroll-to-top/commit/96d970934dd429b93eec156dcd24eac5494682be) Thanks [@frostybee](https://github.com/frostybee)! - threshold option now uses absolute pixels instead of percentage
+
+  The `threshold` option now accepts an absolute pixel value instead of a percentage of the total page height. This provides consistent button visibility behavior regardless of page length.
+
+  **Breaking change:** Update any existing `threshold` values in your configuration. For example, `threshold: 30` (30%) should be replaced with an absolute pixel value such as `threshold: 300` (300px).
+
+  The default value has changed from `30` (30%) to `300` (300px).
+
 ## 0.4.0
 
 ### Minor Changes
