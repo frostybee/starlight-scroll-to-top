@@ -31,10 +31,10 @@ jobs:
 
       - uses: changesets/action@fdf536a68c4154480c89b42547f8102cf0d8bc47 # v2.1.1
         with:
-          version: pnpm changeset version
-          publish: pnpm changeset publish --access public
-          commit: 'ci: release'
-          title: 'ci: release'
+          version-script: pnpm changeset version
+          publish-script: pnpm changeset publish --access public
+          commit-message: 'ci: release'
+          pr-title: 'ci: release'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
