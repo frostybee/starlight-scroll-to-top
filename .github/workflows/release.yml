@@ -32,7 +32,7 @@ jobs:
       - uses: changesets/action@fdf536a68c4154480c89b42547f8102cf0d8bc47 # v2.1.1
         with:
           version-script: pnpm changeset version
-          publish-script: pnpm changeset publish --access public
+          publish-script: pnpm changeset publish
           commit-message: 'ci: release'
           pr-title: 'ci: release'
         env:
