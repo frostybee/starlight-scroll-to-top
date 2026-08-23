@@ -1,5 +1,11 @@
 # starlight-scroll-to-top
 
+## 2.0.0
+
+### Major Changes
+
+- [`dada760`](https://github.com/frostybee/starlight-scroll-to-top/commit/dada7600121ef50e37217eac11b65ccddfb5cb63) Thanks [@frostybee](https://github.com/frostybee)! - Upgrade to Astro v7 and Starlight 0.41. Drops support for Astro v6 and Starlight versions below 0.41.
+
 ## 1.0.1
 
 ### Patch Changes
