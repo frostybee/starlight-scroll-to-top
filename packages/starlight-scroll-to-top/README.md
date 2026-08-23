@@ -1,8 +1,17 @@
-<div align="center">
-  <h1>starlight-scroll-to-top 🚀
- </h1>
-  <p>A plugin for Astro Starlight that adds a "scroll to top" button to your documentation site.</p>
-</div>
+<h1 align="center">Scroll to Top</h1>
+
+<p align="center">
+  <a href="https://www.npmjs.com/package/starlight-scroll-to-top"><img src="https://img.shields.io/npm/v/starlight-scroll-to-top.svg" alt="npm version"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/License-MIT-blue.svg" alt="License: MIT"></a>
+</p>
+
+<p align="center">
+  <a href="https://frostybee.github.io/starlight-scroll-to-top/"><strong>Documentation</strong></a> ·
+  <a href="https://frostybee.github.io/starlight-scroll-to-top/configuration/">Configuration</a> ·
+  <a href="https://github.com/frostybee/starlight-scroll-to-top/releases">Releases</a>
+</p>
+
+A plugin for Astro Starlight that adds a "scroll to top" button to your documentation site.
 
 ## Features
 

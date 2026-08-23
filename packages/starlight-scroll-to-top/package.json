@@ -23,11 +23,11 @@
     "CHANGELOG.md"
   ],
   "devDependencies": {
-    "@astrojs/starlight": "^0.38.2",
-    "astro": "^6.0.8"
+    "@astrojs/starlight": "^0.41.7",
+    "astro": "^7.2.4"
   },
   "peerDependencies": {
-    "@astrojs/starlight": ">=0.38.0"
+    "@astrojs/starlight": ">=0.41.0"
   },
   "engines": {
     "node": ">=22.12.0"
